@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/user_icon"
+        android:title="@string/title_user"
+        />
+
+    <item
+        android:id="@+id/navigation_my_activities"
+        android:icon="@drawable/activities_icon"
+        android:title="@string/title_my_activities"
+        />
+
+    <item
+        android:id="@+id/navigation_calendar"
+        android:icon="@drawable/calendar_icon"
+        android:title="@string/title_calendar"
+        />
+
+</menu>

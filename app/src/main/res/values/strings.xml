@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Mi gimnasio</string>
+    <string name="title_user">Mi cuenta</string>
+    <string name="title_my_activities">Mis Actividades</string>
+    <string name="title_calendar">Calendario</string>
+    <string name="btn_edit_profile">Editar perfil</string>
+</resources>
