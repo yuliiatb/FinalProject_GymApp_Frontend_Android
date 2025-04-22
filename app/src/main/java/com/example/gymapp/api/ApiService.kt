@@ -1,7 +1,6 @@
 package com.example.gymapp.api
-import com.example.gymapp.data.models.*
+import com.example.gymapp.data.model.*
 import retrofit2.http.*
-import java.sql.Date
 
 // Definir como la app va a comunicarse con Spring Boot backend
 interface ApiService {
@@ -11,6 +10,10 @@ interface ApiService {
     @PUT("gym_user/{id_user}")
     suspend fun updateUserProfile(@Path("id_user") id: Int, @Body user: User): User
 
+    @GET("session/session_day")
+    suspend fun getSessionsForDay(
+        @Query("session_day") day: String
+    ): List<SessionDetails>
 /*
     // Endpoints para mostrar todas las sesiones disponibles
     @GET("api/sessions")

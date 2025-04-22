@@ -1,4 +1,4 @@
-package com.example.gymapp.data.models
+package com.example.gymapp.data.model
 
 data class User(
     val idUser: Int? = null,

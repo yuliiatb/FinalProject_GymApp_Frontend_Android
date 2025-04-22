@@ -1,6 +1,6 @@
-package com.example.gymapp.data.repositories
+package com.example.gymapp.data.repository
 import com.example.gymapp.api.RetrofitClient
-import com.example.gymapp.data.models.User
+import com.example.gymapp.data.model.User
 
 class UserRepository {
     private val apiService = RetrofitClient.apiService

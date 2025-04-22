@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.gymapp.data.models.User
-import com.example.gymapp.data.repositories.UserRepository
+import com.example.gymapp.data.model.User
+import com.example.gymapp.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class AccountViewModel : ViewModel() {

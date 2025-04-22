@@ -1,4 +1,4 @@
-package com.example.gymapp.data.models;
+package com.example.gymapp.data.model;
 
 import java.time.LocalDate
 

@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.gymapp.data.models.User
+import com.example.gymapp.data.model.User
 import com.example.gymapp.databinding.FragmentAccountBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
