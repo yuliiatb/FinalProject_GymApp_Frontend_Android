@@ -10,10 +10,8 @@ interface ApiService {
     @PUT("gym_user/{id_user}")
     suspend fun updateUserProfile(@Path("id_user") id: Int, @Body user: User): User
 
-    @GET("session/session_day")
-    suspend fun getSessionsForDay(
-        @Query("session_day") day: String
-    ): List<SessionDetails>
+    @GET("session/{session_day}")
+    suspend fun getSessionsForDay(@Path("session_day") day: String): List<SessionDetails>
 /*
     // Endpoints para mostrar todas las sesiones disponibles
     @GET("api/sessions")

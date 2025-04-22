@@ -9,20 +9,19 @@ import com.example.gymapp.data.model.SessionDetails
 import com.example.gymapp.data.repository.SessionRepository
 import kotlinx.coroutines.launch
 
-class CalendarViewModel (private val repository: SessionRepository): ViewModel() {
-    private val sessions = MutableLiveData<List<SessionDetails>>()
-    val sessionsToShow: LiveData<List<SessionDetails>> get() = sessions
+class CalendarViewModel (private val sessionRepository: SessionRepository): ViewModel() {
+    val sessions = MutableLiveData<List<SessionDetails>>()
 
     fun loadSessions(day: String) {
         viewModelScope.launch {
             try {
-                val result = repository.getSessionsForDay(day)
-                sessions.value = result
+                val result = sessionRepository.getSessionsForDay(day)
+                sessions.postValue(result)
             }
             catch (e: Exception) {
-                Log.e("Session for a day", "Error al mostrar las sesiones para un día")
+                Log.e("Session for a day", "Error al mostrar las sesiones para un día", e)
+                sessions.postValue(emptyList())
             }
         }
     }
-
 }

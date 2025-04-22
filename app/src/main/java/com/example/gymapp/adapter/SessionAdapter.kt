@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
 import com.example.gymapp.data.model.SessionDetails
 
-class SessionAdapter (private val sessions: List<SessionDetails>) :
+class SessionAdapter (private var sessions: List<SessionDetails>) :
     RecyclerView.Adapter<SessionAdapter.SessionViewHolder>() {
 
     inner class SessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -31,6 +31,20 @@ class SessionAdapter (private val sessions: List<SessionDetails>) :
     override fun getItemCount(): Int = sessions.size
 
     override fun onBindViewHolder(holder: SessionViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val session = sessions[position]
+        holder.activityName.text = session.activityName
+        holder.roomName.text = session.roomName
+        holder.instructor.text = session.instructorName
+        holder.time.text = session.sessionTime.toString()
+        holder.freeSpots.text = session.availableSpots.toString()
+
+        holder.registerButton.setOnClickListener {
+            // handle registration logic
+        }
+    }
+
+    fun updateSessions(newSessions: List<SessionDetails>) {
+        sessions = newSessions
+        notifyDataSetChanged()
     }
 }
