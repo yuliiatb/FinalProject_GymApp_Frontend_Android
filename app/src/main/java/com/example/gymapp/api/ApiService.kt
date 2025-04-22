@@ -7,11 +7,11 @@ import java.sql.Date
 interface ApiService {
     @GET("gym_user/{id_user}")
     suspend fun getUserProfile(@Path("id_user") id: Int): User
-/*
-    @PUT("api/gym_user/{id_user}")
+
+    @PUT("gym_user/{id_user}")
     suspend fun updateUserProfile(@Path("id_user") id: Int, @Body user: User): User
 
-
+/*
     // Endpoints para mostrar todas las sesiones disponibles
     @GET("api/sessions")
     suspend fun getAllAvailableSessions(): List<SessionDetails>

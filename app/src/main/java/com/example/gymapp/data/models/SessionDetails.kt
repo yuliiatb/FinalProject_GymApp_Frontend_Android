@@ -1,12 +1,12 @@
 package com.example.gymapp.data.models
 
-import java.sql.Date
-import java.sql.Time
+import java.time.LocalDate
+import java.time.LocalTime
 
 data class SessionDetails(
     val id_session: Int,
-    val session_date: Date,
-    val session_time: Time,
+    val session_date: LocalDate,
+    val session_time: LocalTime,
     val session_status: String,
     val activity_name: String,
     val room_name: String,

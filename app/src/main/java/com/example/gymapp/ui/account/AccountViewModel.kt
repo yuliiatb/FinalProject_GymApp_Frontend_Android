@@ -22,8 +22,14 @@ class AccountViewModel : ViewModel() {
                 val userData = repository.getUserProfile(userId)
                 _user.value = userData
             } catch (e: Exception) {
-                Log.e("AccountViewModel", "Failed to load user", e)
+                Log.e("AccountViewModel", "No se han cargado los datos", e)
             }
         }
     }
+
+    suspend fun updateUserProfile(userId: Int, user: User): User {
+        return repository.updateUserProfile(userId, user)
+    }
+
+
 }
