@@ -12,10 +12,9 @@ interface ApiService {
 
     @GET("session/{session_day}")
     suspend fun getSessionsForDay(@Path("session_day") day: String): List<SessionDetails>
+
+
 /*
-    // Endpoints para mostrar todas las sesiones disponibles
-    @GET("api/sessions")
-    suspend fun getAllAvailableSessions(): List<SessionDetails>
 
     @GET("api/sessions")
     suspend fun getSessionsByDate(@Query("date") date: Date): List<SessionDetails>

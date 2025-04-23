@@ -43,7 +43,7 @@ class CalendarFragment : Fragment() {
 
         observeViewModel()
 
-        // TODO no hardcode days
+        // TODO añadir logica para botones aqui
         viewModel.loadSessions("Lunes")
 
         return view

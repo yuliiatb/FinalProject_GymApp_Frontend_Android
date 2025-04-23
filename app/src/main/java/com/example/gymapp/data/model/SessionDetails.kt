@@ -5,12 +5,12 @@ import java.time.LocalTime
 
 data class SessionDetails(
     val idSession: Int,
-    val sessionDate: LocalDate,
-    val sessionTime: LocalTime,
+    val sessionDay: String,
+    val sessionTime: String,
     val sessionStatus: String,
+    val maxParticipantsNumber: Int,
     val activityName: String,
     val roomName: String,
-    val instructorName: String, // para mostrar el nombre completo, no el ID del instructor
-    val availableSpots: Int,
-    val totalSpots: Int
+    val instructorName: String,
+    val availableSpots: Int = 0 // Default value if not provided by the backend
 )

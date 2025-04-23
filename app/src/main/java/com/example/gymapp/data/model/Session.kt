@@ -5,8 +5,8 @@ import java.time.LocalTime
 
 data class Session(
     val idSession: Int? = null,
-    val sessionDate: LocalDate,
-    val sessionTime: LocalTime,
+    val sessionDate: String,
+    val sessionTime: String,
     val sessionStatus: String,
     val maxParticipantsNumber: Int,
     val idActivity: Int,
