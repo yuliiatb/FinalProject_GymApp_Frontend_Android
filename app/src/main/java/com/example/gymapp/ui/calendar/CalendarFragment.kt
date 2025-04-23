@@ -46,6 +46,7 @@ class CalendarFragment : Fragment() {
         // TODO añadir logica para botones aqui
         viewModel.loadSessions("Lunes")
 
+
         return view
     }
 

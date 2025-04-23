@@ -54,13 +54,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/beige"
+            android:layout_margin="2dp"
             android:text="&lt;" />
 
         <Button
             android:id="@+id/btnMonday"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
             android:layout_weight="1"
+            android:layout_margin="2dp"
             android:text="L" />
 
         <Button
@@ -68,34 +72,44 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/blue"
+            android:layout_margin="2dp"
             android:text="M" />
 
         <Button
             android:id="@+id/btnWednesday"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
             android:layout_weight="1"
+            android:layout_margin="2dp"
             android:text="X" />
 
         <Button
             android:id="@+id/btnThursday"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
             android:layout_weight="1"
+            android:layout_margin="2dp"
             android:text="J" />
 
         <Button
             android:id="@+id/btnFriday"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
             android:layout_weight="1"
+            android:layout_margin="2dp"
             android:text="V" />
 
         <Button
             android:id="@+id/btnNextWeek"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/beige"
             android:layout_weight="1"
+            android:layout_margin="2dp"
             android:text="&gt;" />
 
     </LinearLayout>
@@ -104,6 +118,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="410dp"
         android:layout_height="567dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

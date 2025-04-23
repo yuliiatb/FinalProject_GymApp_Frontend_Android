@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!---Colores de la app-->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_pink">#F98FA6</color>
+    <color name="coral">#FC657E</color>
+    <color name="red">#f2463e</color>
+    <color name="light_blue">#70D6F9</color>
+    <color name="blue">#4966a2</color>
+    <color name="dark_blue">#142546</color>
+    <color name="beige">#f3b5af</color>
+    <color name="yellow">#F5C84C</color>
+
+    <!---Colores para las actividades-->
+    <color name="activity_running">#df9fbb</color>
+    <color name="activity_yoga">#f6ef89</color>
+    <color name="activity_dance">#f6c089</color>
+    <color name="activity_swimming">#89c4f6</color>
+    <color name="activity_cycling">#c9a4fb</color>
+    <color name="activity_boxing">#ef9b93</color>
+    <color name="activity_pilates">#94e392</color>
+    <color name="activity_functional">#8addcf</color>
 
 </resources>
