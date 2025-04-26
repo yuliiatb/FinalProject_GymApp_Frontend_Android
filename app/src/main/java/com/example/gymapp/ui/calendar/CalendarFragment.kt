@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,10 @@ import com.example.gymapp.R
 import com.example.gymapp.adapter.SessionAdapter
 import com.example.gymapp.data.repository.SessionRepository
 import com.example.gymapp.databinding.FragmentCalendarBinding
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Calendar
+import java.util.Locale
 
 class CalendarFragment : Fragment() {
 
@@ -49,6 +54,8 @@ class CalendarFragment : Fragment() {
         var currentDay = "Lunes" //día por defecto
         viewModel.loadSessions(currentDay)
 
+        val calendar = Calendar.getInstance()
+
         val btnMonday = view.findViewById<Button>(R.id.btnMonday)
         val btnTuesday = view.findViewById<Button>(R.id.btnTuesday)
         val btnWednesday = view.findViewById<Button>(R.id.btnWednesday)
@@ -66,6 +73,23 @@ class CalendarFragment : Fragment() {
 
             // Cambiar el color si el botón está pulsado
             btnPressed.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.light_pink))
+        }
+
+        fun updateWeekTextView(view: View) {
+            val dateFormat = SimpleDateFormat("dd.MM.yyy", Locale.getDefault())
+
+            val startWeek = calendar.clone() as Calendar
+            startWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+
+            val endWeek = startWeek.clone() as Calendar
+            endWeek.add(Calendar.DAY_OF_MONTH, 4)
+
+            val weekRange = "${dateFormat.format(startWeek.time)} - ${dateFormat.format(endWeek.time)}"
+
+            val weekTextView = view.findViewById<TextView>(R.id.weekToShow)
+            weekTextView.text = weekRange
+
+
         }
 
         btnMonday.setOnClickListener {
@@ -99,11 +123,15 @@ class CalendarFragment : Fragment() {
         }
 
         btnPreviousWeek.setOnClickListener {
-            //TODO implementar
+            calendar.add(Calendar.WEEK_OF_YEAR, -1)
+            updateWeekTextView(view)
+            viewModel.loadSessions(currentDay)
         }
 
         btnNextWeek.setOnClickListener {
-            //TODO implementar
+            calendar.add(Calendar.WEEK_OF_YEAR, 1)
+            updateWeekTextView(view)
+            viewModel.loadSessions(currentDay)
         }
 
 

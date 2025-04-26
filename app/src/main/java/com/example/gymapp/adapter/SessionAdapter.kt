@@ -11,6 +11,7 @@ import androidx.core.graphics.toColor
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
 import com.example.gymapp.data.model.SessionDetails
+import java.time.format.DateTimeFormatter
 
 class SessionAdapter (private var sessions: List<SessionDetails>) :
     RecyclerView.Adapter<SessionAdapter.SessionViewHolder>() {
@@ -38,7 +39,7 @@ class SessionAdapter (private var sessions: List<SessionDetails>) :
         holder.activityName.text = session.activityName
         holder.roomName.text = session.roomName
         holder.instructor.text = session.instructorName
-        holder.time.text = session.sessionTime.trimEnd(':') // quitar ":" que aparecen después de la hora
+        holder.time.text = session.sessionTime.toString()
         holder.freeSpots.text = session.availableSpots.toString()
 
         holder.registerButton.setOnClickListener {
