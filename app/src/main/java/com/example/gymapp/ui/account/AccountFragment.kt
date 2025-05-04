@@ -14,6 +14,8 @@ import com.example.gymapp.data.model.User
 import com.example.gymapp.databinding.FragmentAccountBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class AccountFragment : Fragment() {
 
@@ -38,10 +40,21 @@ class AccountFragment : Fragment() {
             binding.textHello.setText(user.userFirstName)
             binding.userName.setText(user.userFirstName)
             binding.userLastName.setText(user.userLastName)
-            binding.userBirthDate.setText(user.userBirthDate)
+            //binding.userBirthDate.setText(user.userBirthDate)
             binding.userEmail.setText(user.userEmail)
             binding.userPhone.setText(user.userPhone)
             binding.userAddress.setText(user.userAddress)
+
+            // Formatear la fecha
+            val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val adjustedFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            val formattedBirthDate = try {
+                val date = originalFormat.parse(user.userBirthDate)
+                adjustedFormat.format(date!!)
+            } catch (e: Exception) {
+                user.userBirthDate // si la fecha no se parsea, se muestra el formato original (1990-07-12)
+            }
+            binding.userBirthDate.setText(formattedBirthDate)
         }
 
         var isInEditMode = false

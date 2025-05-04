@@ -7,11 +7,11 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.toColor
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
 import com.example.gymapp.data.model.SessionDetails
-import java.time.format.DateTimeFormatter
+import com.example.gymapp.data.model.SessionInstance
+import java.time.LocalDate
 
 class SessionAdapter (private var sessions: List<SessionDetails>) :
     RecyclerView.Adapter<SessionAdapter.SessionViewHolder>() {
@@ -20,8 +20,9 @@ class SessionAdapter (private var sessions: List<SessionDetails>) :
         val activityName: TextView = view.findViewById(R.id.textActivityName)
         val roomName: TextView = view.findViewById(R.id.textRoom)
         val instructor: TextView = view.findViewById(R.id.textInstructor)
-        val time: TextView = view.findViewById(R.id.textTime)
+        val classTime: TextView = view.findViewById(R.id.textTime)
         val freeSpots: TextView = view.findViewById(R.id.textFreeSpots)
+        val classDate: TextView = view.findViewById(R.id.textDate)
         val registerButton: Button = view.findViewById(R.id.btnRegister)
     }
 
@@ -36,11 +37,17 @@ class SessionAdapter (private var sessions: List<SessionDetails>) :
 
     override fun onBindViewHolder(holder: SessionViewHolder, position: Int) {
         val session = sessions[position]
+
         holder.activityName.text = session.activityName
         holder.roomName.text = session.roomName
         holder.instructor.text = session.instructorName
-        holder.time.text = session.sessionTime.toString()
-        holder.freeSpots.text = session.availableSpots.toString()
+        holder.classTime.text = session.sessionTime
+        holder.freeSpots.text = session.availableSpots.toString() + " plazas"
+        holder.classDate.text = when {
+            session.sessionDate == null -> "---"
+            session.sessionDate.isEmpty() -> "---"
+            else -> session.sessionDate
+        }
 
         holder.registerButton.setOnClickListener {
             // handle registration logic
@@ -68,5 +75,9 @@ class SessionAdapter (private var sessions: List<SessionDetails>) :
     fun updateSessions(newSessions: List<SessionDetails>) {
         sessions = newSessions
         notifyDataSetChanged()
+    }
+
+    private fun showSessionDate(sessionInstance: SessionInstance): String {
+        return sessionInstance.sessionInstanceDate
     }
 }

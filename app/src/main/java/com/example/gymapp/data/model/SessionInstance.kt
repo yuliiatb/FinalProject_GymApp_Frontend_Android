@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 data class SessionInstance (
     val idSessionInstance: Int? = null,
-    val sessionInstanceDate: LocalDate,
+    val sessionInstanceDate: String,
     val idSession: Session
 )
 

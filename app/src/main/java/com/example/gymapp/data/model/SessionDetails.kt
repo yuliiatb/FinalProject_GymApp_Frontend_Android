@@ -1,8 +1,5 @@
 package com.example.gymapp.data.model
 
-import java.time.LocalDate
-import java.time.LocalTime
-
 data class SessionDetails(
     val idSession: Int,
     val sessionDay: String,
@@ -12,5 +9,9 @@ data class SessionDetails(
     val activityName: String,
     val roomName: String,
     val instructorName: String,
+    val sessionDate: String? =  null,
     val availableSpots: Int = 0 // Default value if not provided by the backend
 )
+
+//val sessionInstance: SessionInstance = ""
+//val date = sessionInstance.sessionInstanceDate

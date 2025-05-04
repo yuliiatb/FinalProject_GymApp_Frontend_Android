@@ -88,8 +88,6 @@ class CalendarFragment : Fragment() {
 
             val weekTextView = view.findViewById<TextView>(R.id.weekToShow)
             weekTextView.text = weekRange
-
-
         }
 
         btnMonday.setOnClickListener {
@@ -133,8 +131,6 @@ class CalendarFragment : Fragment() {
             updateWeekTextView(view)
             viewModel.loadSessions(currentDay)
         }
-
-
 
         return view
     }
