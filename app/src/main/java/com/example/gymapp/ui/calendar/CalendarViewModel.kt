@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
 class CalendarViewModel (private val sessionRepository: SessionRepository): ViewModel() {
     val sessions = MutableLiveData<List<SessionDetails>>()
 
-    fun loadSessions(day: String) {
+    fun loadSessions(day: String, startDate: String, endDate: String) {
         viewModelScope.launch {
             try {
-                val result = sessionRepository.getSessionsForDay(day)
+                val result = sessionRepository.getSessionsForDay(day, startDate, endDate)
                 sessions.postValue(result)
             }
             catch (e: Exception) {
-                Log.e("Session for a day", "Error al mostrar las sesiones para un día", e)
+                Log.e("Sesiones para el día", "Error al mostrar las sesiones para el día", e)
                 sessions.postValue(emptyList())
             }
         }

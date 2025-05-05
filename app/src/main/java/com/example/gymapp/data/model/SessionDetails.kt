@@ -12,6 +12,3 @@ data class SessionDetails(
     val sessionDate: String? =  null,
     val availableSpots: Int = 0 // Default value if not provided by the backend
 )
-
-//val sessionInstance: SessionInstance = ""
-//val date = sessionInstance.sessionInstanceDate

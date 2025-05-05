@@ -32,7 +32,6 @@ class SessionAdapter (private var sessions: List<SessionDetails>) :
         return SessionViewHolder(view)
     }
 
-    // Muestra el número de las sesiones
     override fun getItemCount(): Int = sessions.size
 
     override fun onBindViewHolder(holder: SessionViewHolder, position: Int) {
@@ -51,6 +50,7 @@ class SessionAdapter (private var sessions: List<SessionDetails>) :
 
         holder.registerButton.setOnClickListener {
             // handle registration logic
+            // hacer lo de button pressed como en calendar fragment
         }
 
         // Establecer color según el nombre de la actividad
@@ -75,9 +75,5 @@ class SessionAdapter (private var sessions: List<SessionDetails>) :
     fun updateSessions(newSessions: List<SessionDetails>) {
         sessions = newSessions
         notifyDataSetChanged()
-    }
-
-    private fun showSessionDate(sessionInstance: SessionInstance): String {
-        return sessionInstance.sessionInstanceDate
     }
 }

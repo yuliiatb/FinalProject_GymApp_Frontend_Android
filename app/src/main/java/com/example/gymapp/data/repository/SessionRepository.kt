@@ -6,8 +6,8 @@ import com.example.gymapp.data.model.SessionDetails
 class SessionRepository {
     private val apiService = RetrofitClient.apiService
 
-    suspend fun getSessionsForDay(day: String): List<SessionDetails> {
-        return apiService.getSessionsForDay(day)
+    suspend fun getSessionsForDay(day: String, startDate: String, endDate: String): List<SessionDetails> {
+        return apiService.getSessionsForDay(day, startDate, endDate)
     }
 
 }

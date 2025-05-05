@@ -12,7 +12,9 @@ interface ApiService {
     suspend fun updateUserProfile(@Path("id_user") id: Int, @Body user: User): User
 
     @GET("session/{session_day}")
-    suspend fun getSessionsForDay(@Path("session_day") day: String): List<SessionDetails>
+    suspend fun getSessionsForDay(@Path("session_day") day: String,
+                                  @Query("startDate") startDate: String,
+                                  @Query("endDate") endDate: String): List<SessionDetails>
 
     @GET("session_instance/{session_instance_date}")
     suspend fun getSessionDate(@Path("session_instance_date") date: LocalDate): SessionInstance

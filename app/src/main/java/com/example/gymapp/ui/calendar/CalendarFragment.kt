@@ -16,7 +16,6 @@ import com.example.gymapp.adapter.SessionAdapter
 import com.example.gymapp.data.repository.SessionRepository
 import com.example.gymapp.databinding.FragmentCalendarBinding
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Calendar
 import java.util.Locale
 
@@ -50,11 +49,41 @@ class CalendarFragment : Fragment() {
 
         observeViewModel()
 
-        // Mostrar las sesiones según el día de la semana
-        var currentDay = "Lunes" //día por defecto
-        viewModel.loadSessions(currentDay)
+        fun getDayName(): String {
+            return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+                Calendar.MONDAY -> "Lunes"
+                Calendar.TUESDAY -> "Martes"
+                Calendar.WEDNESDAY -> "Miércoles"
+                Calendar.THURSDAY -> "Jueves"
+                Calendar.FRIDAY -> "Viernes"
+                Calendar.SATURDAY -> "Sábado"
+                Calendar.SUNDAY -> "Domingo"
+                else -> ""
+            }
+        }
 
+        // Función para mostrar las sesiones correctamente para una semana
+        fun getWeekRange(calendar: Calendar): Pair<String, String> {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+            val startWeek = calendar.clone() as Calendar
+            startWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+
+            val endWeek = startWeek.clone() as Calendar
+            endWeek.add(Calendar.DAY_OF_MONTH, 4)
+
+            val startDate = dateFormat.format(startWeek.time)
+            val endDate = dateFormat.format(endWeek.time)
+
+            return Pair(startDate, endDate)
+        }
+
+        // Mostrar las sesiones según el día de la semana TODO
         val calendar = Calendar.getInstance()
+        var currentDay = getDayName()
+        val (startDate, endDate) = getWeekRange(calendar)
+
+        viewModel.loadSessions(currentDay, startDate, endDate) // carga las sesiones que corresponden con el día solicitado y el rango de fechas de la semana
 
         val btnMonday = view.findViewById<Button>(R.id.btnMonday)
         val btnTuesday = view.findViewById<Button>(R.id.btnTuesday)
@@ -63,6 +92,7 @@ class CalendarFragment : Fragment() {
         val btnFriday = view.findViewById<Button>(R.id.btnFriday)
         val btnPreviousWeek = view.findViewById<Button>(R.id.btnPreviousWeek)
         val btnNextWeek = view.findViewById<Button>(R.id.btnNextWeek)
+        val textViewWeekToShow = view.findViewById<TextView>(R.id.weekToShow)
 
         // Función para cambiar el color del botón pulsado
         fun changeButtonColor(btnPressed: Button) {
@@ -85,51 +115,59 @@ class CalendarFragment : Fragment() {
             endWeek.add(Calendar.DAY_OF_MONTH, 4)
 
             val weekRange = "${dateFormat.format(startWeek.time)} - ${dateFormat.format(endWeek.time)}"
-
-            val weekTextView = view.findViewById<TextView>(R.id.weekToShow)
-            weekTextView.text = weekRange
+            textViewWeekToShow.text = weekRange
         }
+
+        // Mostrar las fechas de la semana actual
+        updateWeekTextView(view)
 
         btnMonday.setOnClickListener {
             currentDay = "Lunes"
-            viewModel.loadSessions(currentDay)
+            val (startDate, endDate) = getWeekRange(calendar)
+            viewModel.loadSessions(currentDay, startDate, endDate)
             changeButtonColor(btnMonday)
         }
 
         btnTuesday.setOnClickListener {
             currentDay = "Martes"
-            viewModel.loadSessions(currentDay)
+            val (startDate, endDate) = getWeekRange(calendar)
+            viewModel.loadSessions(currentDay, startDate, endDate)
             changeButtonColor(btnTuesday)
         }
 
         btnWednesday.setOnClickListener {
             currentDay = "Miércoles"
-            viewModel.loadSessions(currentDay)
+            val (startDate, endDate) = getWeekRange(calendar)
+            viewModel.loadSessions(currentDay, startDate, endDate)
             changeButtonColor(btnWednesday)
         }
 
         btnThursday.setOnClickListener {
             currentDay = "Jueves"
-            viewModel.loadSessions(currentDay)
+            val (startDate, endDate) = getWeekRange(calendar)
+            viewModel.loadSessions(currentDay, startDate, endDate)
             changeButtonColor(btnThursday)
         }
 
         btnFriday.setOnClickListener {
             currentDay = "Viernes"
-            viewModel.loadSessions(currentDay)
+            val (startDate, endDate) = getWeekRange(calendar)
+            viewModel.loadSessions(currentDay, startDate, endDate)
             changeButtonColor(btnFriday)
         }
 
         btnPreviousWeek.setOnClickListener {
             calendar.add(Calendar.WEEK_OF_YEAR, -1)
             updateWeekTextView(view)
-            viewModel.loadSessions(currentDay)
+            val (startDate, endDate) = getWeekRange(calendar)
+            viewModel.loadSessions(currentDay, startDate, endDate)
         }
 
         btnNextWeek.setOnClickListener {
             calendar.add(Calendar.WEEK_OF_YEAR, 1)
             updateWeekTextView(view)
-            viewModel.loadSessions(currentDay)
+            val (startDate, endDate) = getWeekRange(calendar)
+            viewModel.loadSessions(currentDay, startDate, endDate)
         }
 
         return view
