@@ -61,6 +61,7 @@ class AccountFragment : Fragment() {
         binding.btnEditProfile.setOnClickListener {
             isInEditMode = !isInEditMode// permitir escribir en los campos para modificar los datos
             canEditProfile(isInEditMode)
+            Snackbar.make(binding.root, "Para cambiar la contraseña, accede el menú en la parte superior de la pantalla", Snackbar.LENGTH_SHORT).show()
         }
 
         binding.btnCancelChanges.setOnClickListener {

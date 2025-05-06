@@ -1,19 +1,23 @@
 package com.example.gymapp.adapter
 
+import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
 import com.example.gymapp.data.model.SessionDetails
-import com.example.gymapp.data.model.SessionInstance
-import java.time.LocalDate
+import com.google.android.material.snackbar.Snackbar
 
-class SessionAdapter (private var sessions: List<SessionDetails>) :
+
+class SessionAdapter (private var sessions: List<SessionDetails>,
+                      private val context: Context) :
     RecyclerView.Adapter<SessionAdapter.SessionViewHolder>() {
 
     inner class SessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -28,7 +32,8 @@ class SessionAdapter (private var sessions: List<SessionDetails>) :
 
     // Muestra la tarjeta con la sesión
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SessionViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_activity, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.card_activity, parent, false)
         return SessionViewHolder(view)
     }
 
@@ -49,8 +54,8 @@ class SessionAdapter (private var sessions: List<SessionDetails>) :
         }
 
         holder.registerButton.setOnClickListener {
-            // handle registration logic
-            // hacer lo de button pressed como en calendar fragment
+
+            showRegistrationDialogWindow(context, holder.itemView)
         }
 
         // Establecer color según el nombre de la actividad
@@ -69,11 +74,49 @@ class SessionAdapter (private var sessions: List<SessionDetails>) :
             else -> ContextCompat.getColor(context, R.color.white)
         }
         cardView.setCardBackgroundColor(cardColor)
-
     }
 
     fun updateSessions(newSessions: List<SessionDetails>) {
         sessions = newSessions
         notifyDataSetChanged()
     }
+
+    fun showRegistrationDialogWindow(context: Context, view: View) {
+        val dialog = AlertDialog.Builder(context)
+            .setTitle("¡Te esperamos para entrenar juntos!")
+            .setMessage("¿Quieres apuntarte a esta clase?")
+            .setPositiveButton("Sí", null)
+            .setNegativeButton("No", null)
+            .create()
+
+        dialog.setOnShowListener {
+            dialog.window?.setBackgroundDrawable(
+                ColorDrawable(ContextCompat.getColor(context, R.color.white))
+            )
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                ?.setTextColor(context.getColor(R.color.green))
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                ?.setTextColor(context.getColor(R.color.coral))
+        }
+
+        dialog.show()
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
+            // Handle confirmation
+            dialog.dismiss()
+        }
+
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
+
+            Snackbar.make(view, "No se ha realizado la reserva", Snackbar.LENGTH_INDEFINITE)
+                .setAction("OK") {
+                    // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
+                }
+                .show()
+
+            dialog.dismiss()
+        }
+
+    }
+
 }

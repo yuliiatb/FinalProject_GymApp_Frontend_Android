@@ -43,7 +43,7 @@ class CalendarFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory)[CalendarViewModel::class.java]
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        adapter = SessionAdapter(emptyList())
+        adapter = SessionAdapter(emptyList(), requireContext())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
