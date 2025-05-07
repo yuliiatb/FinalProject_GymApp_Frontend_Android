@@ -7,7 +7,11 @@ import java.time.LocalDate
 class SessionInstanceRepository {
     private val apiService = RetrofitClient.apiService
 
-    suspend fun getSessionDate(date: LocalDate) : SessionInstance {
+    suspend fun getSessionDate(date: LocalDate): SessionInstance {
         return apiService.getSessionDate(date)
+    }
+
+    suspend fun getIdSessionInstance(id: Int): SessionInstance {
+        return apiService.getIdSessionInstance(id)
     }
 }

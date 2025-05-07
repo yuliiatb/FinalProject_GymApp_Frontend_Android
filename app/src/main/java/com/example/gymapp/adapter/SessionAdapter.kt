@@ -2,6 +2,7 @@ package com.example.gymapp.adapter
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +14,19 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
 import com.example.gymapp.data.model.SessionDetails
+import com.example.gymapp.data.model.UserSessionRegistration
+import com.example.gymapp.data.repository.SessionInstanceRepository
+import com.example.gymapp.data.repository.UserSessionRegistrationRepository
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class SessionAdapter (private var sessions: List<SessionDetails>,
-                      private val context: Context) :
+                      private val context: Context,
+                      private val sessionInstanceRepository: SessionInstanceRepository) : //HE AÑADIDO AHORA TODO
     RecyclerView.Adapter<SessionAdapter.SessionViewHolder>() {
 
     inner class SessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -32,8 +41,7 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
 
     // Muestra la tarjeta con la sesión
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SessionViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.card_activity, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_activity, parent, false)
         return SessionViewHolder(view)
     }
 
@@ -54,8 +62,8 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
         }
 
         holder.registerButton.setOnClickListener {
-
-            showRegistrationDialogWindow(context, holder.itemView)
+            Log.d("SessionAdapter", "Full session details: $session")
+            showRegistrationDialogWindow(context, holder.itemView, session.idSessionInstance) //HE AÑADIDO SESSION AQUI
         }
 
         // Establecer color según el nombre de la actividad
@@ -81,7 +89,8 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
         notifyDataSetChanged()
     }
 
-    fun showRegistrationDialogWindow(context: Context, view: View) {
+
+    fun showRegistrationDialogWindow(context: Context, view: View, idSessionInstance: Int) {
         val dialog = AlertDialog.Builder(context)
             .setTitle("¡Te esperamos para entrenar juntos!")
             .setMessage("¿Quieres apuntarte a esta clase?")
@@ -101,22 +110,51 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
 
         dialog.show()
 
+        // Confirmar la reserva
         dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-            // Handle confirmation
-            dialog.dismiss()
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val registration = UserSessionRegistration(
+                        idUser = 1,
+                        idSessionInstance = idSessionInstance
+                    )
+
+                    val response = UserSessionRegistrationRepository().registerForSession(registration)
+
+                    withContext(Dispatchers.Main) {
+                        Snackbar.make(view, "¡Reserva confirmada!", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("OK") {
+                                // espera que el usuario pulse "OK" para confirmar que se ha apuntado a la clase
+                            }.show()
+                        dialog.dismiss()
+                    }
+                } catch (e: Exception) {
+                    Log.e("RegistrationError", "Exception during registration", e)
+                    withContext(Dispatchers.Main) {
+                        Snackbar.make(view, "Se ha producido un error. No se ha realizado la reserva", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("OK") {
+                                // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
+                            }.show()
+                        dialog.dismiss()
+                    }
+                }
+            }
+            //dialog.dismiss()
         }
 
+        // Descartar la reserva
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
-
             Snackbar.make(view, "No se ha realizado la reserva", Snackbar.LENGTH_INDEFINITE)
                 .setAction("OK") {
                     // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
-                }
-                .show()
+                }.show()
 
             dialog.dismiss()
         }
-
     }
+
+
+
 
 }

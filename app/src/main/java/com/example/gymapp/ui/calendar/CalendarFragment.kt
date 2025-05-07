@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
 import com.example.gymapp.adapter.SessionAdapter
+import com.example.gymapp.data.repository.SessionInstanceRepository
 import com.example.gymapp.data.repository.SessionRepository
 import com.example.gymapp.databinding.FragmentCalendarBinding
 import java.text.SimpleDateFormat
@@ -38,12 +39,13 @@ class CalendarFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_calendar, container, false)
 
-        val repository = SessionRepository()
-        val factory = CalendarViewModelFactory(repository)
+        val sessionRepository = SessionRepository()
+        val sessionInstanceRepository = SessionInstanceRepository()
+        val factory = CalendarViewModelFactory(sessionRepository)
         viewModel = ViewModelProvider(this, factory)[CalendarViewModel::class.java]
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        adapter = SessionAdapter(emptyList(), requireContext())
+        adapter = SessionAdapter(emptyList(), requireContext(), sessionInstanceRepository)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

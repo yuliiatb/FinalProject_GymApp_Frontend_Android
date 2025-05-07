@@ -1,6 +1,7 @@
 package com.example.gymapp.data.model
 
 data class SessionDetails(
+    val idSessionInstance: Int,
     val idSession: Int,
     val sessionDay: String,
     val sessionTime: String,
@@ -10,5 +11,5 @@ data class SessionDetails(
     val roomName: String,
     val instructorName: String,
     val sessionDate: String? =  null,
-    val availableSpots: Int = 0 // Default value if not provided by the backend
+    val availableSpots: Int = 0
 )

@@ -40,7 +40,6 @@ class AccountFragment : Fragment() {
             binding.textHello.setText(user.userFirstName)
             binding.userName.setText(user.userFirstName)
             binding.userLastName.setText(user.userLastName)
-            //binding.userBirthDate.setText(user.userBirthDate)
             binding.userEmail.setText(user.userEmail)
             binding.userPhone.setText(user.userPhone)
             binding.userAddress.setText(user.userAddress)
@@ -97,9 +96,7 @@ class AccountFragment : Fragment() {
                     }
                 }
             }
-
         }
-
         return root
     }
 

@@ -3,7 +3,7 @@ import com.example.gymapp.data.model.*
 import retrofit2.http.*
 import java.time.LocalDate
 
-// Definir como la app va a comunicarse con Spring Boot backend
+// Definir endpoints: cómo la app se va a comunicar con Spring Boot Application (backend)
 interface ApiService {
     @GET("gym_user/{id_user}")
     suspend fun getUserProfile(@Path("id_user") id: Int): User
@@ -18,26 +18,18 @@ interface ApiService {
 
     @GET("session_instance/{session_instance_date}")
     suspend fun getSessionDate(@Path("session_instance_date") date: LocalDate): SessionInstance
-/*
 
-    @GET("api/sessions")
-    suspend fun getSessionsByDate(@Query("date") date: Date): List<SessionDetails>
+    @GET("session_instance/{id_session_instance}")
+    suspend fun getIdSessionInstance(@Path("id_session_instance") id: Int): SessionInstance
 
-    // Endpoints para ver las reservas
-    @POST("api/registrations")
+    @GET("user_session_registration/{id_registration}")
+    suspend fun getUserFutureSessions(@Path("id_registration") id_registration: Int,
+                                      @Query("currentDate") currentDate: LocalDate): List<SessionDetails>
+
+    @POST("user_session_registration")
     suspend fun registerForSession(@Body registration: UserSessionRegistration): UserSessionRegistration
 
-    @DELETE("api/registrations/{registrationId}")
-    suspend fun cancelRegistration(@Path("registrationId") registrationId: Int): Boolean
+    @DELETE("user_session_registration/{id_registration}")
+    suspend fun cancelRegistration(@Path("id_registration") idRegistration: Int): Boolean
 
-    @GET("api/users/{userId}/registrations")
-    suspend fun getUserRegistrations(@Path("userId") userId: Int): List<RegistrationDetails>
-
-    @GET("api/users/{userId}/registrations")
-    suspend fun getUserRegistrationsByType(
-        @Path("userId") userId: Int,
-        @Query("type") type: String
-    ): List<RegistrationDetails>
-
-     */
 }
