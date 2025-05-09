@@ -1,5 +1,6 @@
 package com.example.gymapp.ui.my_activities
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,25 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.gymapp.R
+import com.example.gymapp.adapter.SessionAdapter
+import com.example.gymapp.adapter.UserSessionsAdapter
+import com.example.gymapp.data.model.UserSessionRegistration
+import com.example.gymapp.data.repository.SessionInstanceRepository
+import com.example.gymapp.data.repository.SessionRepository
+import com.example.gymapp.data.repository.UserSessionRegistrationRepository
 import com.example.gymapp.databinding.FragmentMyActivitiesBinding
+import com.example.gymapp.ui.calendar.CalendarViewModel
+import com.example.gymapp.ui.calendar.CalendarViewModelFactory
 
 class MyActivitiesFragment : Fragment() {
 
     private var _binding: FragmentMyActivitiesBinding? = null
+
+    private lateinit var viewModel: MyActivitiesViewModel
+    private lateinit var adapter: UserSessionsAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +37,26 @@ class MyActivitiesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(MyActivitiesViewModel::class.java)
 
-        _binding = FragmentMyActivitiesBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val view = inflater.inflate(R.layout.fragment_my_activities, container, false)
 
+        val userSessionRepository = UserSessionRegistrationRepository()
 
-        return root
+        val factory = MyActivitiesViewModelFactory(userSessionRepository)
+        viewModel = ViewModelProvider(this, factory)[MyActivitiesViewModel::class.java]
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+        adapter = UserSessionsAdapter(emptyList(), requireContext())
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        viewModel.sessions.observe(viewLifecycleOwner) { sessions ->
+            adapter.updateSessions(sessions)
+        }
+
+        viewModel.loadUserSessions(1)
+
+        return view
     }
 
     override fun onDestroyView() {

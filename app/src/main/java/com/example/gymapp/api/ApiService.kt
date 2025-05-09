@@ -22,9 +22,15 @@ interface ApiService {
     @GET("session_instance/{id_session_instance}")
     suspend fun getIdSessionInstance(@Path("id_session_instance") id: Int): SessionInstance
 
+    /*
     @GET("user_session_registration/{id_registration}")
-    suspend fun getUserFutureSessions(@Path("id_registration") id_registration: Int,
+    suspend fun getUserSessions(@Path("id_registration") id_registration: Int,
                                       @Query("currentDate") currentDate: LocalDate): List<SessionDetails>
+
+     */
+
+    @GET("user_session_registration/{id_user}")
+    suspend fun getUserSessionsByUser(@Path("id_user") userId: Int): List<SessionDetails> //era query
 
     @POST("user_session_registration")
     suspend fun registerForSession(@Body registration: UserSessionRegistration): UserSessionRegistration

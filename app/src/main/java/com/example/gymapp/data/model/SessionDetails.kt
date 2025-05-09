@@ -11,5 +11,6 @@ data class SessionDetails(
     val roomName: String,
     val instructorName: String,
     val sessionDate: String? =  null,
-    val availableSpots: Int = 0
+    val availableSpots: Int = 0,
+
 )

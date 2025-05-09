@@ -41,6 +41,7 @@ class CalendarFragment : Fragment() {
 
         val sessionRepository = SessionRepository()
         val sessionInstanceRepository = SessionInstanceRepository()
+
         val factory = CalendarViewModelFactory(sessionRepository)
         viewModel = ViewModelProvider(this, factory)[CalendarViewModel::class.java]
 
@@ -80,7 +81,7 @@ class CalendarFragment : Fragment() {
             return Pair(startDate, endDate)
         }
 
-        // Mostrar las sesiones según el día de la semana TODO
+        // Mostrar las sesiones según el día de la semana
         val calendar = Calendar.getInstance()
         var currentDay = getDayName()
         val (startDate, endDate) = getWeekRange(calendar)
@@ -117,7 +118,7 @@ class CalendarFragment : Fragment() {
             endWeek.add(Calendar.DAY_OF_MONTH, 4)
 
             val weekRange = "${dateFormat.format(startWeek.time)} - ${dateFormat.format(endWeek.time)}"
-            textViewWeekToShow.text = weekRange
+            textViewWeekToShow.text = "Semana " + weekRange
         }
 
         // Mostrar las fechas de la semana actual

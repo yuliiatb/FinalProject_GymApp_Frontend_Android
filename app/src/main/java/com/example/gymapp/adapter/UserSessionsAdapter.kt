@@ -2,7 +2,6 @@ package com.example.gymapp.adapter
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
-import android.icu.util.Calendar
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +13,9 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
+import com.example.gymapp.adapter.SessionAdapter.SessionViewHolder
 import com.example.gymapp.data.model.SessionDetails
-import com.example.gymapp.data.model.SessionInstance
 import com.example.gymapp.data.model.UserSessionRegistration
-import com.example.gymapp.data.repository.SessionInstanceRepository
 import com.example.gymapp.data.repository.UserSessionRegistrationRepository
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
@@ -25,51 +23,47 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import java.time.LocalDate
 
+class UserSessionsAdapter(
+        private var sessions: List<SessionDetails>,
+        private val context: Context) :
+    RecyclerView.Adapter<UserSessionsAdapter.UserSessionViewHolder>() {
 
-class SessionAdapter (private var sessions: List<SessionDetails>,
-                      private val context: Context,
-                      private val sessionInstanceRepository: SessionInstanceRepository) :
-    RecyclerView.Adapter<SessionAdapter.SessionViewHolder>() {
-
-    inner class SessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val activityName: TextView = view.findViewById(R.id.textActivityName)
-        val roomName: TextView = view.findViewById(R.id.textRoom)
-        val instructor: TextView = view.findViewById(R.id.textInstructor)
-        val classTime: TextView = view.findViewById(R.id.textTime)
-        val freeSpots: TextView = view.findViewById(R.id.textFreeSpots)
-        val classDate: TextView = view.findViewById(R.id.textDate)
-        val registerButton: Button = view.findViewById(R.id.btnRegister)
+    inner class UserSessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val activityName: TextView = view.findViewById(R.id.textMyActivityName)
+        val roomName: TextView = view.findViewById(R.id.textMyRoom)
+        val instructor: TextView = view.findViewById(R.id.textMyInstructor)
+        val classTime: TextView = view.findViewById(R.id.textMyTime)
+        val status: TextView = view.findViewById(R.id.textMyStatus)
+        val classDate: TextView = view.findViewById(R.id.textMyDate)
+        val cancelButton: Button = view.findViewById(R.id.btnMyCancel)
     }
 
     // Muestra la tarjeta con la sesión
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SessionViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_activity, parent, false)
-        return SessionViewHolder(view)
+    override fun onCreateViewHolder (parent: ViewGroup, viewType: Int): UserSessionViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_user_activity, parent, false)
+        return UserSessionViewHolder(view)
     }
 
     override fun getItemCount(): Int = sessions.size
 
-    override fun onBindViewHolder(holder: SessionViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UserSessionsAdapter.UserSessionViewHolder, position: Int) {
         val session = sessions[position]
 
         holder.activityName.text = session.activityName
         holder.roomName.text = session.roomName
         holder.instructor.text = session.instructorName
         holder.classTime.text = session.sessionTime
-        holder.freeSpots.text = session.availableSpots.toString() + " plazas"
+        holder.status.text = session.sessionStatus
         holder.classDate.text = when {
             session.sessionDate == null -> "---"
             session.sessionDate.isEmpty() -> "---"
             else -> session.sessionDate
         }
 
-        //showRegistrationBtn(holder, session)
-
-        holder.registerButton.setOnClickListener {
-            Log.d("SessionAdapter", "DEBUG: Detalles de la sesión: $session")
-            showRegistrationDialogWindow(context, holder.itemView, session.idSessionInstance)
+        holder.cancelButton.setOnClickListener {
+            Log.d("UserSessionAdapter", "DEBUG: Detalles de la sesión: $session")
+            showCancellationDialogWindow(context, holder.itemView, session.idSessionInstance)
         }
 
         // Establecer color según el nombre de la actividad
@@ -88,46 +82,19 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
             else -> ContextCompat.getColor(context, R.color.white)
         }
         cardView.setCardBackgroundColor(cardColor)
+
+
     }
 
     fun updateSessions(newSessions: List<SessionDetails>) {
         sessions = newSessions
         notifyDataSetChanged()
     }
-/*
-    fun showRegistrationBtn(holder: SessionViewHolder, currentSession: SessionDetails) {
-        try {
-            val parts = currentSession.sessionDate!!.split(".") // separar la fecha, ya que tiene el formato "dd.MM.yyyy"
-            val day = parts[0].toInt()
-            val month = parts[1].toInt() - 1 // Calendar months are 0-based
-            val year = parts[2].toInt()
 
-            val sessionCal = Calendar.getInstance().apply {
-                set(year, month, day, 0, 0, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-
-            val today = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-
-            holder.registerButton.visibility =
-                if (sessionCal.before(today)) View.GONE else View.VISIBLE
-
-        } catch (e: Exception) {
-            holder.registerButton.visibility = View.GONE // esconder el botón si hay errores con la fecha
-        }
-    }
-
- */
-
-    fun showRegistrationDialogWindow(context: Context, view: View, idSessionInstance: Int) {
+    fun showCancellationDialogWindow(context: Context, view: View, idSessionInstance: Int) {
         val dialog = AlertDialog.Builder(context)
-            .setTitle("¡Te esperamos para entrenar juntos!")
-            .setMessage("¿Quieres apuntarte a esta clase?")
+            .setTitle("Cancelación de la reserva")
+            .setMessage("¿Quieres cancelar esta clase?")
             .setPositiveButton("Sí", null)
             .setNegativeButton("No", null)
             .create()
@@ -157,7 +124,7 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
                     val response = UserSessionRegistrationRepository().registerForSession(registration)
 
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, "¡Reserva confirmada!", Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(view, "Cancelado correctamente. ¡Apúntate a otra clase!", Snackbar.LENGTH_INDEFINITE)
                             .setAction("OK") {
                                 // espera que el usuario pulse "OK" para confirmar que se ha apuntado a la clase
                             }.show()
@@ -165,7 +132,7 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
                     }
                 } catch (e: HttpException) { // bloque catch para captar las excepciones enviadas por backend y mostrar los mensajes correspondientes al usuario
                     val backendErrorMessage = e.response()?.errorBody()?.string()
-                        ?: "Error desconocido. No se ha realizado la reserva"
+                        ?: "Error desconocido. No se ha cancelado la reserva"
                     withContext(Dispatchers.Main) {
                         Snackbar.make(view, backendErrorMessage, Snackbar.LENGTH_INDEFINITE)
                             .setAction("OK") {
@@ -174,9 +141,9 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
                         dialog.dismiss()
                     }
                 } catch (e: Exception) {
-                    Log.e("RegistrationError", "Error al realizar la reserva", e)
+                    Log.e("RegistrationError", "Error al cancelar la reserva", e)
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, "Se ha producido un error. No se ha realizado la reserva", Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(view, "Se ha producido un error. No se ha cancelado la reserva", Snackbar.LENGTH_INDEFINITE)
                             .setAction("OK") {
                                 // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
                             }.show()
@@ -188,7 +155,7 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
 
         // Descartar la reserva
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
-            Snackbar.make(view, "No se ha realizado la reserva", Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(view, "No se ha cancelado la reserva", Snackbar.LENGTH_INDEFINITE)
                 .setAction("OK") {
                     // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
                 }.show()
@@ -196,4 +163,5 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
             dialog.dismiss()
         }
     }
+
 }
