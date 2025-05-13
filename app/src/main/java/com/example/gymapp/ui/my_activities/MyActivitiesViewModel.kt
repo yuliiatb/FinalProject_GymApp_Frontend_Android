@@ -6,18 +6,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gymapp.data.model.SessionDetails
+import com.example.gymapp.data.model.UserRegisteredSession
 import com.example.gymapp.data.repository.SessionRepository
 import com.example.gymapp.data.repository.UserSessionRegistrationRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class MyActivitiesViewModel(private val userSessionRepository: UserSessionRegistrationRepository): ViewModel() {
-    val sessions = MutableLiveData<List<SessionDetails>>()
+    val sessions = MutableLiveData<List<UserRegisteredSession>>()
 
     fun loadUserSessions(idUser: Int) {
         viewModelScope.launch {
             try {
-                val result = userSessionRepository.getUserSessionsByUser(idUser)
+                val result: List<UserRegisteredSession> = userSessionRepository.getUserSessionsByUser(idUser)
+
                 Log.d("DEBUG", "Sessiones cargadas: $result")
                 sessions.postValue(result)
             }

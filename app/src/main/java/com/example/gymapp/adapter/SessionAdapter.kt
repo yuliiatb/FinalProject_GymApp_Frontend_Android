@@ -94,35 +94,6 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
         sessions = newSessions
         notifyDataSetChanged()
     }
-/*
-    fun showRegistrationBtn(holder: SessionViewHolder, currentSession: SessionDetails) {
-        try {
-            val parts = currentSession.sessionDate!!.split(".") // separar la fecha, ya que tiene el formato "dd.MM.yyyy"
-            val day = parts[0].toInt()
-            val month = parts[1].toInt() - 1 // Calendar months are 0-based
-            val year = parts[2].toInt()
-
-            val sessionCal = Calendar.getInstance().apply {
-                set(year, month, day, 0, 0, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-
-            val today = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-
-            holder.registerButton.visibility =
-                if (sessionCal.before(today)) View.GONE else View.VISIBLE
-
-        } catch (e: Exception) {
-            holder.registerButton.visibility = View.GONE // esconder el botón si hay errores con la fecha
-        }
-    }
-
- */
 
     fun showRegistrationDialogWindow(context: Context, view: View, idSessionInstance: Int) {
         val dialog = AlertDialog.Builder(context)

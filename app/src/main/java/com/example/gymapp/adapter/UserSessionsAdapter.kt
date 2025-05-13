@@ -13,8 +13,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
-import com.example.gymapp.adapter.SessionAdapter.SessionViewHolder
 import com.example.gymapp.data.model.SessionDetails
+import com.example.gymapp.data.model.UserRegisteredSession
 import com.example.gymapp.data.model.UserSessionRegistration
 import com.example.gymapp.data.repository.UserSessionRegistrationRepository
 import com.google.android.material.snackbar.Snackbar
@@ -25,8 +25,8 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
 class UserSessionsAdapter(
-        private var sessions: List<SessionDetails>,
-        private val context: Context) :
+        private var sessions: List<UserRegisteredSession>,
+        private val context: Context):
     RecyclerView.Adapter<UserSessionsAdapter.UserSessionViewHolder>() {
 
     inner class UserSessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -63,7 +63,7 @@ class UserSessionsAdapter(
 
         holder.cancelButton.setOnClickListener {
             Log.d("UserSessionAdapter", "DEBUG: Detalles de la sesión: $session")
-            showCancellationDialogWindow(context, holder.itemView, session.idSessionInstance)
+            showCancellationDialogWindow(context, holder.itemView, session.idRegistration)
         }
 
         // Establecer color según el nombre de la actividad
@@ -82,16 +82,14 @@ class UserSessionsAdapter(
             else -> ContextCompat.getColor(context, R.color.white)
         }
         cardView.setCardBackgroundColor(cardColor)
-
-
     }
 
-    fun updateSessions(newSessions: List<SessionDetails>) {
+    fun updateSessions(newSessions: List<UserRegisteredSession>) {
         sessions = newSessions
         notifyDataSetChanged()
     }
 
-    fun showCancellationDialogWindow(context: Context, view: View, idSessionInstance: Int) {
+    fun showCancellationDialogWindow(context: Context, view: View, idRegistration: Int) {
         val dialog = AlertDialog.Builder(context)
             .setTitle("Cancelación de la reserva")
             .setMessage("¿Quieres cancelar esta clase?")
@@ -111,23 +109,19 @@ class UserSessionsAdapter(
 
         dialog.show()
 
-        // Confirmar la reserva
+        // Confirmar la cancelación de la reserva
         dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    val registration = UserSessionRegistration(
-                        idUser = 1,
-                        idSessionInstance = idSessionInstance
-                    )
-
-                    val response = UserSessionRegistrationRepository().registerForSession(registration)
+                    val response = UserSessionRegistrationRepository().cancelRegistration(idRegistration)
 
                     withContext(Dispatchers.Main) {
                         Snackbar.make(view, "Cancelado correctamente. ¡Apúntate a otra clase!", Snackbar.LENGTH_INDEFINITE)
                             .setAction("OK") {
                                 // espera que el usuario pulse "OK" para confirmar que se ha apuntado a la clase
                             }.show()
+                        Log.d("UserSessionAdapter", "DEBUG: Sesión cancelada: $idRegistration")
                         dialog.dismiss()
                     }
                 } catch (e: HttpException) { // bloque catch para captar las excepciones enviadas por backend y mostrar los mensajes correspondientes al usuario
@@ -153,7 +147,7 @@ class UserSessionsAdapter(
             }
         }
 
-        // Descartar la reserva
+        // Descartar la caqncelación de la reserva
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
             Snackbar.make(view, "No se ha cancelado la reserva", Snackbar.LENGTH_INDEFINITE)
                 .setAction("OK") {

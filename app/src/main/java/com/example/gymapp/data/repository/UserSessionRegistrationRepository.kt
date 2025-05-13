@@ -1,9 +1,8 @@
 package com.example.gymapp.data.repository
 
 import com.example.gymapp.api.RetrofitClient
-import com.example.gymapp.data.model.SessionDetails
+import com.example.gymapp.data.model.UserRegisteredSession
 import com.example.gymapp.data.model.UserSessionRegistration
-import java.time.LocalDate
 
 class UserSessionRegistrationRepository {
     private val apiService = RetrofitClient.apiService
@@ -12,7 +11,7 @@ class UserSessionRegistrationRepository {
         return apiService.registerForSession(userSessionRegistration)
     }
 
-    suspend fun getUserSessionsByUser(idUser: Int): List<SessionDetails> {
+    suspend fun getUserSessionsByUser(idUser: Int): List<UserRegisteredSession> {
         return apiService.getUserSessionsByUser(idUser)
     }
 

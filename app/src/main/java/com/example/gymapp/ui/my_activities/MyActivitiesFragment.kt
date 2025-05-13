@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -50,13 +51,23 @@ class MyActivitiesFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.sessions.observe(viewLifecycleOwner) { sessions ->
-            adapter.updateSessions(sessions)
+        viewModel.sessions.observe(viewLifecycleOwner) { registeredSessions ->
+            adapter.updateSessions(registeredSessions)
         }
 
         viewModel.loadUserSessions(1)
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val btnRefresh = view.findViewById<Button>(R.id.btnRefresh)
+
+        btnRefresh.setOnClickListener {
+            viewModel.loadUserSessions(1) // Replace 1 with actual user ID if needed
+        }
     }
 
     override fun onDestroyView() {
