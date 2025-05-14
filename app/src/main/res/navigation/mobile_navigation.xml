@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_my_activities"
-
-    >
+    app:startDestination="@+id/navigation_my_activities">
 
     <fragment
         android:id="@+id/navigation_account"
@@ -24,4 +22,5 @@
         android:name="com.example.gymapp.ui.calendar.CalendarFragment"
         android:label="@string/title_calendar"
         tools:layout="@layout/fragment_calendar" />
+
 </navigation>

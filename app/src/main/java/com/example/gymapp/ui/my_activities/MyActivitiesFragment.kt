@@ -21,6 +21,7 @@ import com.example.gymapp.data.repository.UserSessionRegistrationRepository
 import com.example.gymapp.databinding.FragmentMyActivitiesBinding
 import com.example.gymapp.ui.calendar.CalendarViewModel
 import com.example.gymapp.ui.calendar.CalendarViewModelFactory
+import com.example.gymapp.ui.dialog_past_activities.PastActivitiesDialogFragment
 
 class MyActivitiesFragment : Fragment() {
 
@@ -47,7 +48,7 @@ class MyActivitiesFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory)[MyActivitiesViewModel::class.java]
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        adapter = UserSessionsAdapter(emptyList(), requireContext())
+        adapter = UserSessionsAdapter(emptyList(), requireContext(), true, true, false)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -66,7 +67,13 @@ class MyActivitiesFragment : Fragment() {
         val btnRefresh = view.findViewById<Button>(R.id.btnRefresh)
 
         btnRefresh.setOnClickListener {
-            viewModel.loadUserSessions(1) // Replace 1 with actual user ID if needed
+            viewModel.loadUserSessions(1)
+        }
+
+        val btnMyPastActivities = view.findViewById<Button>(R.id.btnMyPastActivities)
+        btnMyPastActivities.setOnClickListener {
+            val dialog = PastActivitiesDialogFragment()
+            dialog.show(parentFragmentManager, "PastActivitiesDialog")
         }
     }
 

@@ -26,7 +26,10 @@ import retrofit2.HttpException
 
 class UserSessionsAdapter(
         private var sessions: List<UserRegisteredSession>,
-        private val context: Context):
+        private val context: Context,
+        private val showCancelButton: Boolean,
+        private val showCancelWord: Boolean,
+        private val showTextTick: Boolean):
     RecyclerView.Adapter<UserSessionsAdapter.UserSessionViewHolder>() {
 
     inner class UserSessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -37,6 +40,8 @@ class UserSessionsAdapter(
         val status: TextView = view.findViewById(R.id.textMyStatus)
         val classDate: TextView = view.findViewById(R.id.textMyDate)
         val cancelButton: Button = view.findViewById(R.id.btnMyCancel)
+        val textCancel: TextView = view.findViewById(R.id.textCancel)
+        val textTick: TextView = view.findViewById(R.id.textTick)
     }
 
     // Muestra la tarjeta con la sesión
@@ -60,6 +65,11 @@ class UserSessionsAdapter(
             session.sessionDate.isEmpty() -> "---"
             else -> session.sessionDate
         }
+
+        // Ajustar la visibiladad del botón y palabra "Cancelar" dependiendo si se muestan sesiones futuras o pasadas
+        holder.textCancel.visibility = if (showCancelWord) View.VISIBLE else View.GONE
+        holder.textTick.visibility = if(showTextTick) View.VISIBLE else View.GONE
+        holder.cancelButton.visibility = if (showCancelButton) View.VISIBLE else View.GONE
 
         holder.cancelButton.setOnClickListener {
             Log.d("UserSessionAdapter", "DEBUG: Detalles de la sesión: $session")

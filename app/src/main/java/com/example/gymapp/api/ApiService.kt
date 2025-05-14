@@ -23,8 +23,11 @@ interface ApiService {
     @GET("session_instance/{id_session_instance}")
     suspend fun getIdSessionInstance(@Path("id_session_instance") id: Int): SessionInstance
 
-    @GET("user_session_registration/{id_user}")
-    suspend fun getUserSessionsByUser(@Path("id_user") userId: Int): List<UserRegisteredSession>
+    @GET("user_session_registration/future/{id_user}")
+    suspend fun getFutureUserSessionsByUser(@Path("id_user") userId: Int): List<UserRegisteredSession>
+
+    @GET("user_session_registration/past/{id_user}")
+    suspend fun getPastUserSessionsByUser(@Path("id_user") userId: Int): List<UserRegisteredSession>
 
     @POST("user_session_registration")
     suspend fun registerForSession(@Body registration: UserSessionRegistration): UserSessionRegistration

@@ -29,4 +29,19 @@ class MyActivitiesViewModel(private val userSessionRepository: UserSessionRegist
             }
         }
     }
+
+    fun loadUserPastSessions(idUser: Int) {
+        viewModelScope.launch {
+            try {
+                val result: List<UserRegisteredSession> = userSessionRepository.getPastUserSessionsByUser(idUser)
+
+                Log.d("DEBUG", "Sessiones cargadas: $result")
+                sessions.postValue(result)
+            }
+            catch (e: Exception) {
+                Log.e("Sesiones del usuario", "Error al mostrar las sesiones a las que el usuario se ha registrado", e)
+                sessions.postValue(emptyList())
+            }
+        }
+    }
 }

@@ -20,6 +20,7 @@
             android:layout_height="23dp"
             android:paddingStart="0dp"
             android:text="activityname"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textRoom"
@@ -40,6 +41,7 @@
             android:text="roomname"
             android:textSize="16sp"
             android:textStyle="italic"
+            android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/textActivityName"
             app:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintBottom_toBottomOf="parent"
@@ -50,6 +52,7 @@
             card_view:layout_constraintVertical_bias="0.063" />
 
         <TextView
+            android:id="@+id/textCancel"
             android:layout_width="81dp"
             android:layout_height="23dp"
             android:text="Cancelar ⬇️"
@@ -68,6 +71,7 @@
             android:layout_width="163dp"
             android:layout_height="23dp"
             android:text="instructorname"
+            android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/textTime"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +88,7 @@
             android:layout_width="163dp"
             android:layout_height="23dp"
             android:text="OK/Cancelada"
+            android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/textTime"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,6 +107,7 @@
             android:text="12:00"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/textInstructor"
             app:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintBottom_toBottomOf="parent"
@@ -116,6 +122,7 @@
             android:layout_width="98dp"
             android:layout_height="23dp"
             android:text="01.01.2025"
+            android:textColor="@color/black"
             android:textSize="16sp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
@@ -143,6 +150,21 @@
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintVertical_bias="0.555" />
+
+        <TextView
+            android:id="@+id/textTick"
+            android:layout_width="82dp"
+            android:layout_height="35dp"
+            android:text="✔"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="1.0"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.49" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

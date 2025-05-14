@@ -12,7 +12,11 @@ class UserSessionRegistrationRepository {
     }
 
     suspend fun getUserSessionsByUser(idUser: Int): List<UserRegisteredSession> {
-        return apiService.getUserSessionsByUser(idUser)
+        return apiService.getFutureUserSessionsByUser(idUser)
+    }
+
+    suspend fun getPastUserSessionsByUser(idUser: Int): List<UserRegisteredSession> {
+        return apiService.getPastUserSessionsByUser(idUser)
     }
 
     suspend fun cancelRegistration(idRegistration: Int): Boolean {
