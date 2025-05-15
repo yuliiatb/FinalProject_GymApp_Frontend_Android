@@ -1,5 +1,7 @@
 package com.example.gymapp.data.repository
 import com.example.gymapp.api.RetrofitClient
+import com.example.gymapp.data.model.LoginDetails
+import com.example.gymapp.data.model.LoginResponse
 import com.example.gymapp.data.model.User
 
 class UserRepository {
@@ -13,5 +15,7 @@ class UserRepository {
         return apiService.updateUserProfile(userId, user)
     }
 
-
+    suspend fun login(email:String, password: String): LoginResponse {
+        return apiService.login(LoginDetails(email, password))
+    }
 }

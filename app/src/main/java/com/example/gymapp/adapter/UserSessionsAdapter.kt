@@ -111,10 +111,8 @@ class UserSessionsAdapter(
             dialog.window?.setBackgroundDrawable(
                 ColorDrawable(ContextCompat.getColor(context, R.color.white))
             )
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                ?.setTextColor(context.getColor(R.color.green))
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                ?.setTextColor(context.getColor(R.color.coral))
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(context.getColor(R.color.green))
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(context.getColor(R.color.coral))
         }
 
         dialog.show()
@@ -127,7 +125,7 @@ class UserSessionsAdapter(
                     val response = UserSessionRegistrationRepository().cancelRegistration(idRegistration)
 
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, "Cancelado correctamente. ¡Apúntate a otra clase!", Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(view, "Cancelado correctamente. ¡Apúntate a otra clase!", Snackbar.LENGTH_LONG)
                             .setAction("OK") {
                                 // espera que el usuario pulse "OK" para confirmar que se ha apuntado a la clase
                             }.show()
@@ -138,7 +136,7 @@ class UserSessionsAdapter(
                     val backendErrorMessage = e.response()?.errorBody()?.string()
                         ?: "Error desconocido. No se ha cancelado la reserva"
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, backendErrorMessage, Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(view, backendErrorMessage, Snackbar.LENGTH_LONG)
                             .setAction("OK") {
                                 // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
                             }.show()
@@ -147,7 +145,7 @@ class UserSessionsAdapter(
                 } catch (e: Exception) {
                     Log.e("RegistrationError", "Error al cancelar la reserva", e)
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, "Se ha producido un error. No se ha cancelado la reserva", Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(view, "Se ha producido un error. No se ha cancelado la reserva", Snackbar.LENGTH_LONG)
                             .setAction("OK") {
                                 // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
                             }.show()
@@ -159,7 +157,7 @@ class UserSessionsAdapter(
 
         // Descartar la caqncelación de la reserva
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
-            Snackbar.make(view, "No se ha cancelado la reserva", Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(view, "No se ha cancelado la reserva", Snackbar.LENGTH_LONG)
                 .setAction("OK") {
                     // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
                 }.show()

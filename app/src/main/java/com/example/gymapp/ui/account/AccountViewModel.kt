@@ -30,6 +30,4 @@ class AccountViewModel : ViewModel() {
     suspend fun updateUserProfile(userId: Int, user: User): User {
         return repository.updateUserProfile(userId, user)
     }
-
-
 }

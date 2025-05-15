@@ -1,19 +1,31 @@
 
 package com.example.gymapp.ui.account
 
+import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.gymapp.R
 import com.example.gymapp.data.model.User
+import com.example.gymapp.data.repository.UserSessionRegistrationRepository
 import com.example.gymapp.databinding.FragmentAccountBinding
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -28,8 +40,7 @@ class AccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val accountViewModel =
-            ViewModelProvider(this).get(AccountViewModel::class.java)
+        val accountViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
 
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -43,6 +54,7 @@ class AccountFragment : Fragment() {
             binding.userEmail.setText(user.userEmail)
             binding.userPhone.setText(user.userPhone)
             binding.userAddress.setText(user.userAddress)
+            binding.userPass.setText(user.userPassword)
 
             // Formatear la fecha
             val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -60,7 +72,6 @@ class AccountFragment : Fragment() {
         binding.btnEditProfile.setOnClickListener {
             isInEditMode = !isInEditMode// permitir escribir en los campos para modificar los datos
             canEditProfile(isInEditMode)
-            Snackbar.make(binding.root, "Para cambiar la contraseña, accede el menú en la parte superior de la pantalla", Snackbar.LENGTH_SHORT).show()
         }
 
         binding.btnCancelChanges.setOnClickListener {
@@ -101,15 +112,28 @@ class AccountFragment : Fragment() {
     }
 
     private fun getUpdatedUserData(): User {
+        // Formatear la fecha para enviarla en el formato correcto para el servidor
+        val inputDate = binding.userBirthDate.text.toString()
+
+        val serverDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+
+        val birthDateToSendToServer = try {
+            val parsedDate = currentFormat.parse(inputDate)
+            serverDateFormat.format(parsedDate!!)
+        } catch (e: Exception) {
+            inputDate
+        }
+
         return User(
             idUser = 1,
             userFirstName = binding.userName.text.toString(),
             userLastName = binding.userLastName.text.toString(),
-            userBirthDate = binding.userBirthDate.text.toString(),
+            userBirthDate = birthDateToSendToServer,
             userEmail = binding.userEmail.text.toString(),
             userPhone = binding.userPhone.text.toString(),
             userAddress = binding.userAddress.text.toString(),
-            userPassword = "12345user"
+            userPassword = binding.userPass.text.toString()
         )
     }
 
@@ -148,6 +172,13 @@ class AccountFragment : Fragment() {
             userAddress.isFocusableInTouchMode = enabled
             userAddress.isClickable = enabled
             userAddress.isCursorVisible = enabled
+
+            userPass.isFocusable = enabled
+            userPass.isFocusableInTouchMode = enabled
+            userPass.isClickable = enabled
+            userPass.isCursorVisible = enabled
+
+
         }
     }
 

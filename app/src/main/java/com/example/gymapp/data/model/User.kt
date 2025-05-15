@@ -1,5 +1,7 @@
 package com.example.gymapp.data.model
 
+import java.time.LocalDate
+
 data class User(
     val idUser: Int? = null,
     val userFirstName: String,
