@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -79,7 +80,7 @@ class AccountFragment : Fragment() {
             canEditProfile(false)
 
             accountViewModel.loadUser(1) // volver a cargar los datos del usuario si se cancelan los cambios
-            Snackbar.make(binding.root, "No se guardaron los cambios", Snackbar.LENGTH_SHORT).show()
+            Toast.makeText(context, "No se han guardado los cambios", Toast.LENGTH_LONG).show()
 
             binding.btnCancelChanges.visibility = View.GONE
             binding.btnSaveChanges.visibility = View.GONE
@@ -93,7 +94,7 @@ class AccountFragment : Fragment() {
                 lifecycleScope.launch {
                     try {
                         val result = accountViewModel.updateUserProfile(1, updatedUser)
-                        Snackbar.make(binding.root, "Se han guardado los cambios", Snackbar.LENGTH_SHORT).show()
+                        Toast.makeText(context, "¡Se han guardado los cambios!", Toast.LENGTH_LONG).show()
 
                         isInEditMode = false
                         canEditProfile(false)
@@ -103,7 +104,7 @@ class AccountFragment : Fragment() {
                         binding.btnEditProfile.visibility = View.VISIBLE
                     } catch (e: Exception) {
                         Log.e("UpdateProfile", "Error updating user", e)
-                        Snackbar.make(binding.root, "Se ha producido un error. Los cambios no se han guardado", Snackbar.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Se ha producido un error. Los cambios no se han guardado", Toast.LENGTH_LONG).show()
                     }
                 }
             }

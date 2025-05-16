@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -23,6 +24,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class UserSessionsAdapter(
         private var sessions: List<UserRegisteredSession>,
@@ -60,11 +63,16 @@ class UserSessionsAdapter(
         holder.instructor.text = session.instructorName
         holder.classTime.text = session.sessionTime
         holder.status.text = session.sessionStatus
-        holder.classDate.text = when {
-            session.sessionDate == null -> "---"
-            session.sessionDate.isEmpty() -> "---"
-            else -> session.sessionDate
+
+        val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val adjustedFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        val formattedSessionDate = try {
+            val date = originalFormat.parse(session.sessionDate)
+            adjustedFormat.format(date!!)
+        } catch (e:Exception) {
+            session.sessionDate
         }
+        holder.classDate.setText(formattedSessionDate)
 
         // Ajustar la visibiladad del botón y palabra "Cancelar" dependiendo si se muestan sesiones futuras o pasadas
         holder.textCancel.visibility = if (showCancelWord) View.VISIBLE else View.GONE
@@ -111,7 +119,7 @@ class UserSessionsAdapter(
             dialog.window?.setBackgroundDrawable(
                 ColorDrawable(ContextCompat.getColor(context, R.color.white))
             )
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(context.getColor(R.color.green))
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(context.getColor(R.color.blue))
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(context.getColor(R.color.coral))
         }
 
@@ -125,10 +133,7 @@ class UserSessionsAdapter(
                     val response = UserSessionRegistrationRepository().cancelRegistration(idRegistration)
 
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, "Cancelado correctamente. ¡Apúntate a otra clase!", Snackbar.LENGTH_LONG)
-                            .setAction("OK") {
-                                // espera que el usuario pulse "OK" para confirmar que se ha apuntado a la clase
-                            }.show()
+                        Toast.makeText(context, "Cancelado correctamente. ¡Apúntate a otra clase!", Toast.LENGTH_LONG).show()
                         Log.d("UserSessionAdapter", "DEBUG: Sesión cancelada: $idRegistration")
                         dialog.dismiss()
                     }
@@ -136,19 +141,13 @@ class UserSessionsAdapter(
                     val backendErrorMessage = e.response()?.errorBody()?.string()
                         ?: "Error desconocido. No se ha cancelado la reserva"
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, backendErrorMessage, Snackbar.LENGTH_LONG)
-                            .setAction("OK") {
-                                // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
-                            }.show()
+                        Toast.makeText(context, backendErrorMessage, Toast.LENGTH_LONG).show()
                         dialog.dismiss()
                     }
                 } catch (e: Exception) {
                     Log.e("RegistrationError", "Error al cancelar la reserva", e)
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, "Se ha producido un error. No se ha cancelado la reserva", Snackbar.LENGTH_LONG)
-                            .setAction("OK") {
-                                // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
-                            }.show()
+                        Toast.makeText(context, "Se ha producido un error. No se ha cancelado la reserva", Toast.LENGTH_LONG).show()
                         dialog.dismiss()
                     }
                 }
@@ -157,11 +156,7 @@ class UserSessionsAdapter(
 
         // Descartar la caqncelación de la reserva
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
-            Snackbar.make(view, "No se ha cancelado la reserva", Snackbar.LENGTH_LONG)
-                .setAction("OK") {
-                    // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
-                }.show()
-
+            Toast.makeText(context, "No se ha cancelado la reserva", Toast.LENGTH_LONG).show()
             dialog.dismiss()
         }
     }

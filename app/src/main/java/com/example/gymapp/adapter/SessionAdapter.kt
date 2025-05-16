@@ -2,30 +2,29 @@ package com.example.gymapp.adapter
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
-import android.icu.util.Calendar
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
 import com.example.gymapp.data.model.SessionDetails
-import com.example.gymapp.data.model.SessionInstance
 import com.example.gymapp.data.model.UserSessionRegistration
 import com.example.gymapp.data.repository.SessionInstanceRepository
 import com.example.gymapp.data.repository.UserSessionRegistrationRepository
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import java.time.LocalDate
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class SessionAdapter (private var sessions: List<SessionDetails>,
@@ -38,7 +37,7 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
         val roomName: TextView = view.findViewById(R.id.textRoom)
         val instructor: TextView = view.findViewById(R.id.textInstructor)
         val classTime: TextView = view.findViewById(R.id.textTime)
-        val freeSpots: TextView = view.findViewById(R.id.textFreeSpots)
+        var availableSpots: TextView = view.findViewById(R.id.textAvailableSpots)
         val classDate: TextView = view.findViewById(R.id.textDate)
         val registerButton: Button = view.findViewById(R.id.btnRegister)
     }
@@ -58,14 +57,35 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
         holder.roomName.text = session.roomName
         holder.instructor.text = session.instructorName
         holder.classTime.text = session.sessionTime
-        holder.freeSpots.text = session.availableSpots.toString() + " plazas"
-        holder.classDate.text = when {
-            session.sessionDate == null -> "---"
-            session.sessionDate.isEmpty() -> "---"
-            else -> session.sessionDate
+        holder.availableSpots.text = when {
+            session.availableSpots <= 0 -> "No hay plazas"
+            session.availableSpots == 1 -> "${session.availableSpots} plaza"
+            else -> "${session.availableSpots} plazas"
         }
 
-        //showRegistrationBtn(holder, session)
+        // Establecer el color del texto dependiendo del número de plazas libres
+        when {
+            session.availableSpots <= 0 -> {
+                holder.availableSpots.setTextColor(ContextCompat.getColor(context, R.color.dark_blue))
+                holder.registerButton.isEnabled = false
+            }
+            session.availableSpots <= 5 -> {
+                holder.availableSpots.setTextColor(ContextCompat.getColor(context, R.color.red))
+            }
+            else -> {
+                holder.availableSpots.setTextColor(ContextCompat.getColor(context, R.color.black)) // Or any default color
+            }
+        }
+
+        val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val adjustedFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        val formattedSessionDate = try {
+            val date = originalFormat.parse(session.sessionDate)
+            adjustedFormat.format(date!!)
+        } catch (e:Exception) {
+            session.sessionDate
+        }
+        holder.classDate.setText(formattedSessionDate)
 
         holder.registerButton.setOnClickListener {
             Log.d("SessionAdapter", "DEBUG: Detalles de la sesión: $session")
@@ -107,10 +127,8 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
             dialog.window?.setBackgroundDrawable(
                 ColorDrawable(ContextCompat.getColor(context, R.color.white))
             )
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                ?.setTextColor(context.getColor(R.color.green))
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                ?.setTextColor(context.getColor(R.color.coral))
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(context.getColor(R.color.blue))
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(context.getColor(R.color.coral))
         }
 
         dialog.show()
@@ -128,29 +146,20 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
                     val response = UserSessionRegistrationRepository().registerForSession(registration)
 
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, "¡Reserva confirmada!", Snackbar.LENGTH_INDEFINITE)
-                            .setAction("OK") {
-                                // espera que el usuario pulse "OK" para confirmar que se ha apuntado a la clase
-                            }.show()
+                        Toast.makeText(context, "¡Reserva confirmada!", Toast.LENGTH_LONG).show()
                         dialog.dismiss()
                     }
                 } catch (e: HttpException) { // bloque catch para captar las excepciones enviadas por backend y mostrar los mensajes correspondientes al usuario
                     val backendErrorMessage = e.response()?.errorBody()?.string()
                         ?: "Error desconocido. No se ha realizado la reserva"
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, backendErrorMessage, Snackbar.LENGTH_INDEFINITE)
-                            .setAction("OK") {
-                                // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
-                            }.show()
+                        Toast.makeText(context, backendErrorMessage, Toast.LENGTH_LONG).show()
                         dialog.dismiss()
                     }
                 } catch (e: Exception) {
                     Log.e("RegistrationError", "Error al realizar la reserva", e)
                     withContext(Dispatchers.Main) {
-                        Snackbar.make(view, "Se ha producido un error. No se ha realizado la reserva", Snackbar.LENGTH_INDEFINITE)
-                            .setAction("OK") {
-                                // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
-                            }.show()
+                        Toast.makeText(context, "Se ha producido un error. No se ha realizado la reserva", Toast.LENGTH_LONG).show()
                         dialog.dismiss()
                     }
                 }
@@ -159,11 +168,7 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
 
         // Descartar la reserva
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
-            Snackbar.make(view, "No se ha realizado la reserva", Snackbar.LENGTH_INDEFINITE)
-                .setAction("OK") {
-                    // espera que el usuario pulse "OK" para confirmar que no se ha apuntado a la clase
-                }.show()
-
+            Toast.makeText(context, "No se ha realizado la reserva", Toast.LENGTH_LONG).show()
             dialog.dismiss()
         }
     }
