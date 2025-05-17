@@ -54,6 +54,16 @@ class MyActivitiesFragment : Fragment() {
 
         viewModel.sessions.observe(viewLifecycleOwner) { registeredSessions ->
             adapter.updateSessions(registeredSessions)
+
+            val textNoSessions = view.findViewById<TextView>(R.id.textNoActivities)
+
+            if (registeredSessions.isEmpty()) {
+                textNoSessions.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                textNoSessions.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+            }
         }
 
         viewModel.loadUserSessions(1)

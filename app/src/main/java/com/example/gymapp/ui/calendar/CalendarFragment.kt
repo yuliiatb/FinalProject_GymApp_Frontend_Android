@@ -159,18 +159,31 @@ class CalendarFragment : Fragment() {
             changeButtonColor(btnFriday)
         }
 
+        // Colorear el botón del día correspondiente al abrir el calendario
+        when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+            Calendar.MONDAY -> btnMonday.performClick()
+            Calendar.TUESDAY -> btnTuesday.performClick()
+            Calendar.WEDNESDAY -> btnWednesday.performClick()
+            Calendar.THURSDAY -> btnThursday.performClick()
+            Calendar.FRIDAY -> btnFriday.performClick()
+        }
+
         btnPreviousWeek.setOnClickListener {
             calendar.add(Calendar.WEEK_OF_YEAR, -1)
             updateWeekTextView(view)
             val (startDate, endDate) = getWeekRange(calendar)
+            currentDay = "Lunes"
             viewModel.loadSessions(currentDay, startDate, endDate)
+            changeButtonColor(btnMonday)
         }
 
         btnNextWeek.setOnClickListener {
             calendar.add(Calendar.WEEK_OF_YEAR, 1)
             updateWeekTextView(view)
             val (startDate, endDate) = getWeekRange(calendar)
+            currentDay = "Lunes"
             viewModel.loadSessions(currentDay, startDate, endDate)
+            changeButtonColor(btnMonday)
         }
 
         return view
@@ -179,6 +192,15 @@ class CalendarFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.sessions.observe(viewLifecycleOwner) { sessionList ->
             adapter.updateSessions(sessionList)
+
+            val textWeekend = view?.findViewById<TextView>(R.id.textWeekend)
+
+            if (sessionList.isEmpty()) {
+                textWeekend?.visibility = View.VISIBLE
+            }
+            else {
+                textWeekend?.visibility = View.GONE
+            }
         }
     }
 
