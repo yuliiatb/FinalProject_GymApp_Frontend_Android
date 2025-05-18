@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.gymapp.MainActivity
 import com.example.gymapp.data.repository.UserRepository
@@ -15,6 +14,8 @@ import kotlinx.coroutines.launch
 class LoginActivity: AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private var userRepository = UserRepository()
+    private lateinit var email: String
+    private lateinit var password: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +24,8 @@ class LoginActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnLogin.setOnClickListener {
-            val email = binding.emailEditText.text.toString().trim()
-            val password = binding.passwordEditText.text.toString().trim()
+            email = savedInstanceState?.getString("email") ?: binding.emailEditText.text.toString().trim()
+            password = savedInstanceState?.getString("password") ?: binding.passwordEditText.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Introduce tu correo y contraseña", Toast.LENGTH_SHORT).show()
@@ -48,5 +49,12 @@ class LoginActivity: AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putString("email", binding.emailEditText.text.toString().trim())
+        outState.putString("password", binding.passwordEditText.text.toString().trim())
     }
 }

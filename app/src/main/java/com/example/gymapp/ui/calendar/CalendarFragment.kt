@@ -1,5 +1,6 @@
 package com.example.gymapp.ui.calendar
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
@@ -48,7 +50,15 @@ class CalendarFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         adapter = SessionAdapter(emptyList(), requireContext(), sessionInstanceRepository)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Mostrar las tarjetas con las actividades en una columna si la orientación es vertical y en dos cuando es landscape
+        val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+        recyclerView.layoutManager = if (isLandscape) {
+            GridLayoutManager(requireContext(), 2)
+        } else {
+            LinearLayoutManager(requireContext())
+        }
 
         observeViewModel()
 

@@ -1,6 +1,7 @@
 package com.example.gymapp.ui.dialog_past_activities
 
 import android.app.Dialog
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
@@ -56,8 +58,14 @@ class PastActivitiesDialogFragment : DialogFragment() {
         val adapter = UserSessionsAdapter(emptyList(), requireContext(), false, false, true)
         recyclerView.adapter = adapter
 
+        // Mostrar las tarjetas con las actividades en una columna si la orientación es vertical y en dos cuando es landscape
+        val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = if (isLandscape) {
+            GridLayoutManager(requireContext(), 2)
+        } else {
+            LinearLayoutManager(requireContext())
+        }
 
         viewModel.sessions.observe(viewLifecycleOwner) { registeredSessions ->
             adapter.updateSessions(registeredSessions)

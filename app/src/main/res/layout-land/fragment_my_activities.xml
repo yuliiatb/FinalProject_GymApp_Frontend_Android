@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.my_activities.MyActivitiesFragment">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="259dp"
+        android:layout_height="26dp"
+        android:text="Actividades futuras 💪"
+        android:textColor="@color/dark_blue"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.125"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.101" />
+
+    <Button
+        android:id="@+id/btnRefresh"
+        android:layout_width="46dp"
+        android:layout_height="37dp"
+        android:backgroundTint="@color/light_blue"
+        android:text="🔄"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.892"
+        app:layout_constraintStart_toEndOf="@+id/textTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.081" />
+
+    <TextView
+        android:id="@+id/textNoActivities"
+        android:layout_width="284dp"
+        android:layout_height="157dp"
+        android:text="No tienes reservas futuras.\n\n ¡Apúntate a las clases y ven a entrenar con nosotr@s!\n\n🏆"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.326" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="732dp"
+        android:layout_height="183dp"
+        android:padding="10dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.334" />
+
+    <Button
+        android:id="@+id/btnMyPastActivities"
+        android:layout_width="319dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/blue"
+        android:text="Ver actividades pasadas"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.702" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
