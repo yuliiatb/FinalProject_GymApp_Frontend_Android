@@ -153,11 +153,13 @@ class UserSessionsAdapter(
                         Log.d("UserSessionAdapter", "DEBUG: Sesión cancelada: $idRegistration")
                         dialog.dismiss()
                     }
-                } catch (e: HttpException) { // bloque catch para captar las excepciones enviadas por backend y mostrar los mensajes correspondientes al usuario
-                    val backendErrorMessage = e.response()?.errorBody()?.string()
-                        ?: "Error desconocido. No se ha cancelado la reserva"
+                } catch (e: HttpException) {
+                    val errorMessage = when (e.code()) {
+                        403 -> "Hay que cancelar el registro al menos 10 minutos antes."
+                        else -> "Error desconocido. No se ha cancelado la reserva."
+                    }
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(context, backendErrorMessage, Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
                         dialog.dismiss()
                     }
                 } catch (e: Exception) {
@@ -176,5 +178,4 @@ class UserSessionsAdapter(
             dialog.dismiss()
         }
     }
-
 }

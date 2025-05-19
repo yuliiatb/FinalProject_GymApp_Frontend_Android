@@ -22,8 +22,8 @@ class LoginActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnLogin.setOnClickListener {
-            val email = savedInstanceState?.getString("email") ?: binding.emailEditText.text.toString().trim()
-            val password = savedInstanceState?.getString("password") ?: binding.passwordEditText.text.toString().trim()
+            val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passwordEditText.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Introduce tu correo y contraseña correctamente", Toast.LENGTH_SHORT).show()

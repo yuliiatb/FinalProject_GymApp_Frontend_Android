@@ -317,34 +317,34 @@
 
     <Button
         android:id="@+id/btnSaveChanges"
-        android:layout_width="108dp"
-        android:layout_height="30dp"
+        android:layout_width="117dp"
+        android:layout_height="34dp"
         android:backgroundTint="@color/light_blue"
-        android:text="Guardar cambios"
-        android:visibility="invisible"
         android:fontFamily="@font/semplicita_medium"
+        android:text="Guardar cambios"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.784"
+        app:layout_constraintHorizontal_bias="0.785"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.687" />
+        app:layout_constraintVertical_bias="0.698" />
 
     <Button
         android:id="@+id/btnCancelChanges"
-        android:layout_width="114dp"
-        android:layout_height="28dp"
+        android:layout_width="113dp"
+        android:layout_height="35dp"
         android:backgroundTint="@color/coral"
-        android:text="Cancelar"
-        android:visibility="invisible"
         android:fontFamily="@font/semplicita_medium"
+        android:text="Cancelar"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.205"
+        app:layout_constraintHorizontal_bias="0.203"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.689" />
+        app:layout_constraintVertical_bias="0.696" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
