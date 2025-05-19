@@ -30,6 +30,7 @@
         android:gravity="center"
         android:padding="8dp"
         android:text="Actividades Pasadas ⏳"
+        android:fontFamily="@font/semplicita_medium"
         android:textColor="@color/dark_blue"
         android:textSize="20sp"
         android:textStyle="bold"

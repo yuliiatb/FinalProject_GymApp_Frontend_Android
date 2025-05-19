@@ -13,7 +13,8 @@
         android:layout_height="36dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Patricia"
+        android:text=""
+        android:fontFamily="@font/semplicita_medium"
         android:textColor="@color/blue"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,6 +32,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Hola,"
+        android:fontFamily="@font/semplicita_medium"
         android:textAlignment="center"
         android:textColor="@color/blue"
         android:textSize="25sp"
@@ -70,6 +72,7 @@
             android:text="Nombre"
             android:textColor="@color/dark_blue"
             android:textSize="16sp"
+            android:fontFamily="@font/semplicita_medium"
             android:textStyle="bold" />
 
         <EditText
@@ -81,6 +84,7 @@
             android:focusable="false"
             android:longClickable="false"
             android:text=""
+            android:fontFamily="@font/semplicita_light"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -102,6 +106,7 @@
             android:text="Nacimiento"
             android:textColor="@color/dark_blue"
             android:textSize="16sp"
+            android:fontFamily="@font/semplicita_medium"
             android:textStyle="bold" />
 
         <EditText
@@ -114,6 +119,7 @@
             android:inputType="date"
             android:longClickable="false"
             android:text=""
+            android:fontFamily="@font/semplicita_light"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -135,6 +141,7 @@
             android:text="Email"
             android:textColor="@color/dark_blue"
             android:textSize="16sp"
+            android:fontFamily="@font/semplicita_medium"
             android:textStyle="bold" />
 
         <EditText
@@ -147,6 +154,7 @@
             android:inputType="textEmailAddress"
             android:longClickable="false"
             android:text=""
+            android:fontFamily="@font/semplicita_light"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -169,6 +177,7 @@
             android:text="Teléfono"
             android:textColor="@color/dark_blue"
             android:textSize="16sp"
+            android:fontFamily="@font/semplicita_medium"
             android:textStyle="bold" />
 
         <EditText
@@ -181,6 +190,7 @@
             android:inputType="phone"
             android:longClickable="false"
             android:text=""
+            android:fontFamily="@font/semplicita_light"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -202,6 +212,7 @@
             android:text="Contraseña"
             android:textColor="@color/dark_blue"
             android:textSize="16sp"
+            android:fontFamily="@font/semplicita_medium"
             android:textStyle="bold" />
 
         <EditText
@@ -214,6 +225,7 @@
             android:inputType="textPassword"
             android:longClickable="false"
             android:text=""
+            android:fontFamily="@font/semplicita_light"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -236,6 +248,7 @@
             android:text="Dirección"
             android:textColor="@color/dark_blue"
             android:textSize="16sp"
+            android:fontFamily="@font/semplicita_medium"
             android:textStyle="bold" />
 
         <EditText
@@ -247,6 +260,7 @@
             android:focusable="false"
             android:longClickable="false"
             android:text=""
+            android:fontFamily="@font/semplicita_light"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -268,6 +282,7 @@
             android:text="Apellidos"
             android:textColor="@color/dark_blue"
             android:textSize="16sp"
+            android:fontFamily="@font/semplicita_medium"
             android:textStyle="bold" />
 
         <EditText
@@ -279,6 +294,7 @@
             android:focusable="false"
             android:longClickable="false"
             android:text=""
+            android:fontFamily="@font/semplicita_light"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -290,6 +306,8 @@
         android:backgroundTint="@color/blue"
         android:paddingTop="2dp"
         android:text="Editar perfil"
+        android:fontFamily="@font/semplicita_medium"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.52"
@@ -304,6 +322,8 @@
         android:backgroundTint="@color/light_blue"
         android:text="Guardar cambios"
         android:visibility="invisible"
+        android:fontFamily="@font/semplicita_medium"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.784"
@@ -318,6 +338,8 @@
         android:backgroundTint="@color/coral"
         android:text="Cancelar"
         android:visibility="invisible"
+        android:fontFamily="@font/semplicita_medium"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.205"

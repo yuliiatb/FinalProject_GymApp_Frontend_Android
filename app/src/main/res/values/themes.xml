@@ -1,10 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.GymApp" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryVariant">@color/white</item>
     </style>
-
-
-
 </resources>

@@ -33,6 +33,7 @@
         android:textColor="@color/dark_blue"
         android:textSize="22sp"
         android:textStyle="bold"
+        android:fontFamily="@font/semplicita_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.623"
@@ -42,8 +43,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPastSessions"
-        android:layout_width="409dp"
-        android:layout_height="614dp"
+        android:layout_width="390dp"
+        android:layout_height="615dp"
         android:layout_weight="1"
         android:paddingTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"

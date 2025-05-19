@@ -11,6 +11,7 @@
         android:layout_width="350dp"
         android:layout_height="29dp"
         android:text="Actividades para hoy ⏰ "
+        android:fontFamily="@font/semplicita_medium"
         android:textAlignment="center"
         android:textColor="@color/dark_blue"
         android:textSize="18dp"
@@ -28,6 +29,8 @@
         android:layout_height="23dp"
         android:layout_marginBottom="64dp"
         android:text="Semana: 05.05.2025 - 09.05.2025"
+        android:fontFamily="@font/semplicita_light"
+        android:textStyle="bold"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16dp"
@@ -119,10 +122,11 @@
 
     <TextView
         android:id="@+id/textWeekend"
-        android:layout_width="493dp"
-        android:layout_height="143dp"
-        android:text="Estamos descansando 🧘\n\n Pulsa el botón ➡️ arriba a la derecha, mira que clases tendremos la semana que viene y apúntate a tus favoritas con una antelación máxima de 48 horas 🏃🏻‍♀️"
+        android:layout_width="511dp"
+        android:layout_height="199dp"
+        android:text="Estamos descansando 🧘\n\n Pulsa el botón ➡️ arriba a la derecha, mira que clases tendremos la semana que viene y apúntate a tus favoritas con una antelación máxima de 48 horas 🏃🏻‍♀\n\n️ ¿Ves este mensaje al final del mes?\nPronto subiremos nuevas clases :)️"
         android:textAlignment="center"
+        android:fontFamily="@font/semplicita_light"
         android:textColor="@color/blue"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -130,7 +134,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.611" />
+        app:layout_constraintVertical_bias="0.641" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

@@ -178,8 +178,6 @@ class AccountFragment : Fragment() {
             userPass.isFocusableInTouchMode = enabled
             userPass.isClickable = enabled
             userPass.isCursorVisible = enabled
-
-
         }
     }
 
@@ -192,7 +190,7 @@ class AccountFragment : Fragment() {
             true
         }
         else {
-            Snackbar.make(binding.root, "Rellena todos los campos", Snackbar.LENGTH_SHORT).show()
+            Toast.makeText(context, "Rellena todos los campos", Toast.LENGTH_LONG).show()
             false
         }
     }

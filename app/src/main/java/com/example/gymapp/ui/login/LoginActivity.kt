@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 class LoginActivity: AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private var userRepository = UserRepository()
-    private lateinit var email: String
-    private lateinit var password: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,11 +22,11 @@ class LoginActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnLogin.setOnClickListener {
-            email = savedInstanceState?.getString("email") ?: binding.emailEditText.text.toString().trim()
-            password = savedInstanceState?.getString("password") ?: binding.passwordEditText.text.toString().trim()
+            val email = savedInstanceState?.getString("email") ?: binding.emailEditText.text.toString().trim()
+            val password = savedInstanceState?.getString("password") ?: binding.passwordEditText.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Introduce tu correo y contraseña", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Introduce tu correo y contraseña correctamente", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             Log.d("DEBUG:", email + password)
@@ -41,11 +39,11 @@ class LoginActivity: AppCompatActivity() {
                         finish()
                     }
                     else {
-                        Toast.makeText(this@LoginActivity, response.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, response.message, Toast.LENGTH_LONG).show()
                     }
                 }
                 catch (e: Exception){
-                    Toast.makeText(this@LoginActivity, "Error al iniciar la sesión", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Error al iniciar la sesión", Toast.LENGTH_LONG).show()
                 }
             }
         }

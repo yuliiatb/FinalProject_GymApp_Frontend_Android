@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
 import com.example.gymapp.data.model.SessionDetails
@@ -61,7 +62,7 @@ class UserSessionsAdapter(
         holder.activityName.text = session.activityName
         holder.roomName.text = session.roomName
         holder.instructor.text = session.instructorName
-        holder.classTime.text = session.sessionTime
+        holder.classTime.text = session.sessionTime.trim(':')
         holder.status.text = session.sessionStatus
 
         val originalFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -109,7 +110,6 @@ class UserSessionsAdapter(
 
     fun showCancellationDialogWindow(context: Context, view: View, idRegistration: Int) {
         val dialog = AlertDialog.Builder(context)
-            .setTitle("Cancelación de la reserva")
             .setMessage("¿Quieres cancelar esta clase?")
             .setPositiveButton("Sí", null)
             .setNegativeButton("No", null)
@@ -119,8 +119,24 @@ class UserSessionsAdapter(
             dialog.window?.setBackgroundDrawable(
                 ColorDrawable(ContextCompat.getColor(context, R.color.white))
             )
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(context.getColor(R.color.blue))
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(context.getColor(R.color.coral))
+
+            val font = ResourcesCompat.getFont(context, R.font.semplicita_medium)
+            val messageView = dialog.findViewById<TextView>(android.R.id.message)
+            messageView?.apply {
+                typeface = font
+                textSize = 20f
+            }
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.apply {
+                setTypeface(font)
+                setTextSize(16f)
+                setTextColor(context.getColor(R.color.blue))
+            }
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.apply {
+                setTypeface(font)
+                setTextSize(16f)
+                setTextColor(context.getColor(R.color.coral))
+            }
         }
 
         dialog.show()

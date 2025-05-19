@@ -10,9 +10,6 @@
     <color name="blue">#4966a2</color>
     <color name="dark_blue">#142546</color>
     <color name="beige">#f3b5af</color>
-    <color name="yellow">#F5C84C</color>
-    <color name="green">#2E7D32</color>
-    <color name="green_hover">#1B5E20</color>
 
     <!---Colores para las actividades-->
     <color name="activity_running">#df9fbb</color>
