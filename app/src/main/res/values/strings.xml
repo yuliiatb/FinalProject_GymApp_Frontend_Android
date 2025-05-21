@@ -3,4 +3,17 @@
     <string name="title_user">Mi cuenta</string>
     <string name="title_my_activities">Mis Actividades</string>
     <string name="title_calendar">Calendario</string>
+
+    <string-array name="activity_names">
+        <item>Elige una actividad</item>
+        <item>Running</item>
+        <item>Yoga</item>
+        <item>Danza</item>
+        <item>Natación</item>
+        <item>Cycling</item>
+        <item>Boxeo</item>
+        <item>Pilates</item>
+        <item>Funcional</item>
+    </string-array>
+
 </resources>

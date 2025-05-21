@@ -58,7 +58,7 @@ class SessionAdapter (private var sessions: List<SessionDetails>,
         holder.activityName.text = session.activityName
         holder.roomName.text = session.roomName
         holder.instructor.text = session.instructorName
-        holder.classTime.text = session.sessionTime.trim(':')
+        holder.classTime.text = session.sessionTime
         holder.availableSpots.text = when {
             session.availableSpots <= 0 -> "No hay plazas"
             session.availableSpots == 1 -> "${session.availableSpots} plaza"

@@ -10,4 +10,8 @@ class SessionRepository {
         return apiService.getSessionsForDay(day, startDate, endDate)
     }
 
+    suspend fun getSessionsByIdActivity(id: Int): List<SessionDetails> {
+        return apiService.getSessionsByIdActivity(id)
+    }
+
 }

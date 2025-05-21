@@ -27,6 +27,12 @@ interface ApiService {
     @GET("session_instance/{id_session_instance}")
     suspend fun getIdSessionInstance(@Path("id_session_instance") id: Int): SessionInstance
 
+    //@GET("session/{id_activity}/{activity_name}")
+    //suspend fun getSessionByActivityName(@Path("activity_name") name: String): List<SessionDetails>
+
+    @GET("session/find_by_activity/{id_activity}")
+    suspend fun getSessionsByIdActivity(@Path("id_activity") id: Int): List<SessionDetails>
+
     @GET("user_session_registration/future/{id_user}")
     suspend fun getFutureUserSessionsByUser(@Path("id_user") userId: Int): List<UserRegisteredSession>
 
