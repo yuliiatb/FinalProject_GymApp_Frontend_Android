@@ -1,5 +1,6 @@
-package com.example.gymapp.ui
+package com.example.gymapp.ui.search_by_activity
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -9,6 +10,8 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.R
@@ -72,9 +75,18 @@ class SearchByActivityNameActivity: AppCompatActivity() {
         }
 
         recyclerView = findViewById(R.id.recyclerSearchSessions)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        //recyclerView.layoutManager = LinearLayoutManager(this)
         sessionAdapter = SessionAdapter(emptyList(), this, sessionInstanceRepository)
         recyclerView.adapter = sessionAdapter
+
+        // Mostrar las tarjetas con las actividades en una columna si la orientación es vertical y en dos cuando es landscape
+        val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+        recyclerView.layoutManager = if (isLandscape) {
+            GridLayoutManager(this, 2)
+        } else {
+            LinearLayoutManager(this)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

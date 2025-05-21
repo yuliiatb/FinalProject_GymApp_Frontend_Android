@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.gymapp.databinding.ActivityMainBinding
-import com.example.gymapp.ui.SearchByActivityNameActivity
+import com.example.gymapp.ui.search_by_activity.SearchByActivityNameActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.gymapp.ui.login.LoginActivity
 
