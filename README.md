@@ -1,4 +1,4 @@
-# Frontend - App Android de Reserva de Actividades
+# Frontend - GymApp
 
 Este es el frontend móvil de la aplicación GymApp, desarrollado en Android Studio con Kotlin usando Retrofit para la comunicación con el backend.
 
